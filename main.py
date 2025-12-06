@@ -5,11 +5,11 @@ import os
 import random
 import time
 from contextlib import asynccontextmanager
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import httpx
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 # Shared HTTP client is created in app lifespan for connection reuse
@@ -179,7 +179,46 @@ async def make_request(url: str, token: Optional[str] = None, params: Optional[d
         if e.response.status_code == 404:
             raise HTTPException(status_code=404, detail="Resource not found")
         raise HTTPException(status_code=e.response.status_code, detail="Upstream API error")
-    except httpx.RequestError:
+    except httpx.RequestError as e:
+        if isinstance(e, httpx.TimeoutException):
+            raise HTTPException(status_code=429, detail="Upstream timeout")
+        raise HTTPException(status_code=503, detail="Connection error to Tidal")
+
+
+async def authed_get_json(
+    url: str,
+    *,
+    params: Optional[dict] = None,
+    token: Optional[str] = None,
+    cred: Optional[dict] = None,
+):
+    """Perform an authenticated GET, retrying once on 401. Returns payload with updated token/cred."""
+
+    if token is None:
+        token, cred = await get_tidal_token_for_cred(cred=cred)
+
+    client = await get_http_client()
+    headers = {"authorization": f"Bearer {token}"}
+
+    try:
+        resp = await client.get(url, headers=headers, params=params)
+
+        if resp.status_code == 401:
+            token, cred = await get_tidal_token_for_cred(force_refresh=True, cred=cred)
+            headers["authorization"] = f"Bearer {token}"
+            resp = await client.get(url, headers=headers, params=params)
+
+        resp.raise_for_status()
+        return resp.json(), token, cred
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 404:
+            raise HTTPException(status_code=404, detail="Resource not found")
+        if e.response.status_code == 429:
+            raise HTTPException(status_code=429, detail="Upstream rate limited")
+        raise HTTPException(status_code=e.response.status_code, detail="Upstream API error")
+    except httpx.RequestError as e:
+        if isinstance(e, httpx.TimeoutException):
+            raise HTTPException(status_code=429, detail="Upstream timeout")
         raise HTTPException(status_code=503, detail="Connection error to Tidal")
 
 @app.get("/")
@@ -201,22 +240,270 @@ async def get_track(id: int, quality: str = "HI_RES_LOSSLESS"):
     }
     return await make_request(track_url, params=params)
 
-@app.get("/search/")
-async def search(q: str, type: str = "TRACKS", limit: int = 25):
-    url = "https://api.tidal.com/v1/search"
-    params = {
-        "query": q,
-        "limit": limit,
-        "offset": 0,
-        "types": type,
-        "countryCode": "US",
-    }
-    return await make_request(url, params=params)
+@app.api_route("/search/", methods=["GET"])
+async def search(
+    s: Union[str, None] = Query(default=None),
+    a: Union[str, None] = Query(default=None),
+    al: Union[str, None] = Query(default=None),
+    v: Union[str, None] = Query(default=None),
+    p: Union[str, None] = Query(default=None),
+):
+    """Search endpoint supporting track/artist/album/video/playlist queries via distinct params."""
+    queries = (
+        (s, "https://api.tidal.com/v1/search/tracks", {
+            "query": s,
+            "limit": 25,
+            "offset": 0,
+            "countryCode": "US",
+        }),
+        (a, "https://api.tidal.com/v1/search/top-hits", {
+            "query": a,
+            "limit": 25,
+            "offset": 0,
+            "types": "ARTISTS,TRACKS",
+            "countryCode": "US",
+        }),
+        (al, "https://api.tidal.com/v1/search/top-hits", {
+            "query": al,
+            "limit": 25,
+            "offset": 0,
+            "types": "ALBUMS",
+            "countryCode": "US",
+        }),
+        (v, "https://api.tidal.com/v1/search/top-hits", {
+            "query": v,
+            "limit": 25,
+            "offset": 0,
+            "types": "VIDEOS",
+            "countryCode": "US",
+        }),
+        (p, "https://api.tidal.com/v1/search/top-hits", {
+            "query": p,
+            "limit": 25,
+            "offset": 0,
+            "types": "PLAYLISTS",
+            "countryCode": "US",
+        }),
+    )
+
+    for value, url, params in queries:
+        if value:
+            return await make_request(url, params=params)
+
+    raise HTTPException(status_code=400, detail="Provide one of s, a, al, v, or p")
 
 @app.get("/album/{id}")
 async def get_album(id: int):
     url = f"https://api.tidal.com/v1/albums/{id}/items"
     return await make_request(url, params={"limit": 100, "countryCode": "US"})
+
+
+@app.get("/playlist/")
+async def get_playlist(id: str = Query(..., min_length=1), limit: int = Query(100, ge=1, le=500)):
+    """Fetch playlist metadata plus items concurrently, using shared client and single token."""
+
+    token, cred = await get_tidal_token_for_cred()
+
+    playlist_url = f"https://api.tidal.com/v1/playlists/{id}"
+    items_url = f"https://api.tidal.com/v1/playlists/{id}/items"
+
+    async def fetch(url: str, params: Optional[dict] = None):
+        nonlocal token, cred
+        payload, token, cred = await authed_get_json(
+            url,
+            params=params,
+            token=token,
+            cred=cred,
+        )
+        return payload
+
+    playlist_data, items_data = await asyncio.gather(
+        fetch(playlist_url, {"countryCode": "US"}),
+        fetch(items_url, {"countryCode": "US", "limit": limit}),
+    )
+
+    return {
+        "version": API_VERSION,
+        "playlist": playlist_data,
+        "items": items_data.get("items", items_data),
+    }
+
+
+@app.get("/artist/")
+async def get_artist(
+    id: Optional[int] = Query(default=None),
+    f: Optional[int] = Query(default=None),
+):
+    """Artist detail or album+track aggregation.
+
+    - id: basic artist metadata + cover URLs
+    - f: fetch artist albums page and aggregate tracks across albums (capped concurrency)
+    """
+
+    if id is None and f is None:
+        raise HTTPException(status_code=400, detail="Provide id or f query param")
+
+    token, cred = await get_tidal_token_for_cred()
+
+    if id is not None:
+        artist_url = f"https://api.tidal.com/v1/artists/{id}"
+        artist_data, token, cred = await authed_get_json(
+            artist_url,
+            params={"countryCode": "US"},
+            token=token,
+            cred=cred,
+        )
+
+        picture = artist_data.get("picture")
+        cover = None
+        if picture:
+            slug = picture.replace("-", "/")
+            cover = {
+                "id": artist_data.get("id"),
+                "name": artist_data.get("name"),
+                "750": f"https://resources.tidal.com/images/{slug}/750x750.jpg",
+            }
+
+        return {"version": API_VERSION, "artist": artist_data, "cover": cover}
+
+    artist_page_url = (
+        "https://api.tidal.com/v1/pages/single-module-page/"
+        "ae223310-a4c2-4568-a770-ffef70344441/4/a4f964ba-b52e-41e8-b25c-06cd70c1efad/2"
+    )
+    artist_page_url += f"?artistId={f}&countryCode=US&deviceType=BROWSER"
+
+    page_data, token, cred = await authed_get_json(
+        artist_page_url,
+        token=token,
+        cred=cred,
+    )
+
+    album_ids: List[int] = []
+    for row in page_data.get("rows", []):
+        for module in row.get("modules", []):
+            paged = module.get("pagedList") or {}
+            for item in paged.get("items", []):
+                album_id = item.get("id")
+                if album_id:
+                    album_ids.append(album_id)
+
+    album_ids = list(dict.fromkeys(album_ids))  # preserve order, dedupe
+
+    if not album_ids:
+        return {"version": API_VERSION, "albums": page_data, "tracks": []}
+
+    sem = asyncio.Semaphore(6)
+
+    async def fetch_album_tracks(album_id: int):
+        nonlocal token, cred
+        async with sem:
+            album_data, token, cred = await authed_get_json(
+                "https://api.tidal.com/v1/pages/album",
+                params={
+                    "albumId": album_id,
+                    "countryCode": "US",
+                    "deviceType": "BROWSER",
+                },
+                token=token,
+                cred=cred,
+            )
+
+            rows = album_data.get("rows", [])
+            if len(rows) < 2:
+                return []
+            modules = rows[1].get("modules", [])
+            if not modules:
+                return []
+            paged_list = modules[0].get("pagedList", {})
+            items = paged_list.get("items", [])
+            tracks = [track.get("item", track) for track in items]
+            return tracks
+
+    results = await asyncio.gather(
+        *(fetch_album_tracks(album_id) for album_id in album_ids),
+        return_exceptions=True,
+    )
+
+    tracks: List[dict] = []
+    for res in results:
+        if isinstance(res, Exception):
+            continue
+        tracks.extend(res)
+
+    return {"version": API_VERSION, "albums": page_data, "tracks": tracks}
+
+
+@app.get("/cover/")
+async def get_cover(
+    id: Optional[int] = Query(default=None),
+    q: Optional[str] = Query(default=None),
+):
+    """Fetch album cover data for a track id or search query."""
+
+    if id is None and q is None:
+        raise HTTPException(status_code=400, detail="Provide id or q query param")
+
+    token, cred = await get_tidal_token_for_cred()
+
+    def build_cover_entry(cover_slug: str, name: Optional[str], track_id: Optional[int]):
+        slug = cover_slug.replace("-", "/")
+        return {
+            "id": track_id,
+            "name": name,
+            "1280": f"https://resources.tidal.com/images/{slug}/1280x1280.jpg",
+            "640": f"https://resources.tidal.com/images/{slug}/640x640.jpg",
+            "80": f"https://resources.tidal.com/images/{slug}/80x80.jpg",
+        }
+
+    if id is not None:
+        track_data, token, cred = await authed_get_json(
+            f"https://api.tidal.com/v1/tracks/{id}/",
+            params={"countryCode": "US"},
+            token=token,
+            cred=cred,
+        )
+
+        album = track_data.get("album") or {}
+        cover_slug = album.get("cover")
+        if not cover_slug:
+            raise HTTPException(status_code=404, detail="Cover not found")
+
+        entry = build_cover_entry(
+            cover_slug,
+            album.get("title") or track_data.get("title"),
+            album.get("id") or id,
+        )
+        return {"version": API_VERSION, "covers": [entry]}
+
+    search_data, token, cred = await authed_get_json(
+        "https://api.tidal.com/v1/search/tracks",
+        params={"countryCode": "US", "query": q, "limit": 10},
+        token=token,
+        cred=cred,
+    )
+
+    items = search_data.get("items", [])[:10]
+    if not items:
+        raise HTTPException(status_code=404, detail="Cover not found")
+
+    covers = []
+    for track in items:
+        album = track.get("album") or {}
+        cover_slug = album.get("cover")
+        if not cover_slug:
+            continue
+        covers.append(
+            build_cover_entry(
+                cover_slug,
+                track.get("title"),
+                track.get("id"),
+            )
+        )
+
+    if not covers:
+        raise HTTPException(status_code=404, detail="Cover not found")
+
+    return {"version": API_VERSION, "covers": covers}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
