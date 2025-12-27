@@ -1,339 +1,203 @@
+# hifi-api
 
-<div align="center">
+![Running on BiniLossless.](https://sachinsenal0x64.github.io/picx-images-hosting/hifi.5fkz01pkwn.webp)
 
-<h1 align="center"> HIFI </h1>
+<p align="center">Running on <a href="https://music.binimum.org/">BiniLossless</a>.</p>
 
-<h4 align="center">  🎵 Privacy-focused, cross-platform, self-hostable Tidal instance. <br><br>
+`hifi-api` is forked from the original [here](https://github.com/sachinsenal0x64/hifi).
 
-</h4>
- 
-<img width="1568" height="860" alt="hifi tidal" src="https://sachinsenal0x64.github.io/picx-images-hosting/hifi.5fkz01pkwn.webp" />
+> [!IMPORTANT]
+>
+> This documentation is a **work-in-progress**. It is not complete however there is still lots of useful information here.
 
- Tidal HiFi Frontend - [BiniTidal](https://music.binimum.org)  Web UI 
+## Setup
 
-
-
-<img width="1568" height="860" alt="hifi tidal" src="https://sachinsenal0x64.github.io/picx-images-hosting/image.3d56fumd2v.webp" />
-
- Another HiFi Frontend - [Monochrome](https://monochrome.prigoana.com) Web UI 
-
-</div>
-
-<div align="center">
-	
-[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](https://opensource.org/licenses/MIT) [![FASTAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com) [![Python](https://img.shields.io/badge/-Python-FCC624?style=style=flat-square&logo=Python)](https://www.python.org) [![PkgGoDev](https://pkg.go.dev/badge/github.com/rivo/tview)](https://pkg.go.dev/github.com/rivo/tview)
-
-
-   
-
-</div>
-
-<br><br>
-
-# 💕 Community
-
-> 🍻 Join the community:  <a href="https://discord.gg/EbfftZ5Dd4">Discord</a>
-> [![](https://cdn.statically.io/gh/sachinsenal0x64/picx-images-hosting@master/discord.72y8nlaw5mdc.webp)](https://discord.gg/EbfftZ5Dd4)
- 
-<br>
-
-
-# 📌 F.A.Q
-
-> We DO NOT encourage piracy and made for purely educational purposes / personal use / just for listen not for downloading.
-
-> I'm currently paying for a Tidal HiFi Plus subscription.
-
-> You can access our rest api for free if you want to self-host then need tidal subscription.
-
-> TUI is plug & play also you can add your own tidal account but by default it has our API so you can listen tidal music for free.
-
-> TL;DR  HIFI API Can Get Any Quality & Codec Which Tidal Offer / Some Qualities & Codecs Need Special Driver / Song / Hardware to get maximum output i always recommend to use `HI_RES` or `LOSSLESS` both are in flac.
-
-> [MQA-CHECKER](https://github.com/purpl3F0x/MQA_identifier)
-
-> Low (96 kbps) - 3 MB | Low (320 kbps) - 8 MB | High (FLAC, 16-bit, 44.1 kHz) - 30 MB | Max (MQA) - 26 MB | Max (MQA) - 26  | Max (HiRes FLAC, up to 24-bit, 192 kHz) - 30 MB to 140 MB
-
- 
-<br>
-
-# ❓ WHY ?
-
-I love cli tools as well as music, so why not to have a tidal music client for the terminal? Unfortunately, I haven't found any terminal client yet, and that's why it's all about :)
-
-
-<br>
-
-> Tidal Current Situation.
-
-![Doge](https://sachinsenal0x64.github.io/picx-images-hosting/658aud.5f9r4ktllf8.webp)
-
-<br>
-
-<table>
-<tr>
-<td>
- 
-# 🚀 Features
-
-- 🍟 TIDAL PREMIUM (HIFI-PLUS) YOU CAN LISTEN FOR FREE USING OUR  [API](https://tidal.401658.xyz) & WEB PLAYER
-  
-- 📀 AUDIO QUALITY / CODEC  : SONY_360RA | DOLBY ATMOS | MQA 96K  | HI RES FLAC | HI RES LOSSLESS | FLAC LOSSLESS | HIGH | LOW | Up to 24-bit, 192 kHz
-
-- ⌨ VIM LIKE KEY BINDINGS
-
-- 🎧 PLAYER: TIDAL-HIFI Web / TUI
-
-- 📡 REST API
-  
-- ⛓️‍💥 BYPASS GEO RESTRICTED CONTENT
-  
-- ⚖️ LAYER 7 LOAD BALANCER (ACT AS API GATEWAY)
-
-- 🕹️ REMOTE (Highly Controllable Remotely Over the Network + Independently, Such an as Play | Pause | Seek | Volume | Next | Previous | Loops (Repeat | Infinity))
-  
-</table>
-</tr>
-</td>
-
-
-<br>
-
-
-> [!NOTE]  
-> TUI based on this api and it free & opensource.
-
-> [API DOCS](https://github.com/sachinsenal0x64/Hifi-Tui?tab=readme-ov-file#-api-documentation-no-account-required)
-
-> https://tidal.401658.xyz 
-
-
-<br>
-
-
-
-# 🔋 EXTRA 
-
-- [host-hifi-restapi-on-vercel](https://github.com/sachinsenal0x64/host-hifi-restapi-on-vercel)
-- [host-hifi-restapi-on-heroku](https://github.com/sachinsenal0x64/host-hifi-restapi-on-heroku)
-- [tidal_auth](https://github.com/sachinsenal0x64/hifi-tui/tree/main/tidal_auth)
-- [apigateway](https://github.com/sachinsenal0x64/hifi-tui/tree/main/apigateway)
-
-
-<br>
-
-# 🌱 Community 
-
-- [tidal-dl](https://github.com/Nem-git/tidal) Download music from Tidal, no account required.
-- [tidler](https://git.medvidek77.tech/Medvidek77/tidler) Tidal music downloader based on the hifi-tui API
-- [BiniTidal (Web)](https://music.binimum.org) | [SquidWtf (Web)](https://tidal.squid.wtf) | [BiniTidal (Source code)](https://github.com/uimaxbai/tidal-ui) Hifi Frontend
-- [Monochrome (Web)](https://monochrome.prigoana.com) | [Monochrome (Source code)](https://github.com/eduardprigoana/monochrome)  Hifi Frontend
-
-<br>
-
-
-# 💨 Quick Start
-
-## Web UI
-
-- [BiniTidal (Web)](https://music.binimum.org) | [SquidWtf (Web)](https://tidal.squid.wtf) Hifi Frontend
-- [Monochrome (Web)](https://monochrome.prigoana.com)  Another Hifi Frontend
-
-<br>
+Run `tidal_auth/tidal_auth.py` and follow the instructions to authenticate. The script saves its output in a file `token.json`. Keep it safe.
 
 > [!NOTE]
-> Tui player based on [hifi-api](https://github.com/sachinsenal0x64/Hifi-Tui?tab=readme-ov-file#-tidal-reverse-api--status) so its totally free (you can listen without any premium subscription) and easy to install via package manager 
+> 
+> `tidal_auth.py` uses a `token.json` file. It is saved to the directory where you *ran* the script, not where the script is located.
+>
+> Likewise, the API expects `token.json` to be in the directory where you *run* the script, not where the script is located. Most of the time this shouldn't matter.
 
-## TUI
-
-- (⭕ WIP)
-
-<br>
-
-## 🏠 INSTALLATION (Optional)  
-
-> [!TIP]
-> You can access [api](https://github.com/sachinsenal0x64/Hifi-Tui?tab=readme-ov-file#-tidal-reverse-api--status) for free without having to self-host it.
+> [!IMPORTANT]
+>
+> When running `tidal_auth.py` with an existing `token.json` file, the new token is **appended** to the original `token.json`. The API randomly selects one of the tokens from the list to be used - this is intended behaviour.
+>
+> However, this also means that **expired tokens will not be overwritten by re-running the `tidal_auth.py` script**. If in doubt, just delete `token.json` and re-run the script.
 
 > [!NOTE]
-> This Required [Tidal](https://tidal.com) subscription / [Redis](https://github.com/redis/redis) & Fill the [.env](https://github.com/sachinsenal0x64/Hifi-Tui/blob/main/api/env-example) file. / Grab Tokens and Ids Using
-[tidal_auth.py](https://github.com/sachinsenal0x64/hifi-tui/tree/main/tidal_auth)
+>
+> Although the project may seem like it supports `.env`, it currently **does not support `.env` files or set environment variables**.
 
+## API Schema
 
-<br>
+Scroll down a bit for information of typical flows (for example - APIs called when playing a song).
 
-### 🐳 Docker
+### `GET /info/`
 
-```sh
-# Clone the Repo
-git clone https://github.com/sachinsenal0x64/hifi
+#### Params
 
-# Rename .env-example
-cd hifi-tui
-mv .env.example .env
+- `id`: `int` (required) - the Tidal ID of the track.
 
-# Just run
-docker compose up
+#### Response
 
-```
-<br>
+`200 OK`
 
-
-
-### 🐳 Update
-
-```sh
-# Clone the Repo
-git clone https://github.com/sachinsenal0x64/hifi
-
-cd hifi-tui
-git pull
-
-# Just run
-docker compose pull
-docker compose down
-docker compose up -d --build
-docker image prune -f
-
-
-```
-
-<br>
-
-### 🦄 From Source Code
-
-```sh
-git clone https://github.com/sachinsenal0x64/hifi
-
-# Rename .env-example
-cd hifi-tui
-mv .env.example .env
-
-pip install "fastapi[all]"
-pip install -r requirements.txt
-
-python3 -m uvicorn main:app --host 0.0.0.0 --port 8000
-
-```
-
-![fastapi](https://sachinsenal0x64.github.io/picx-images-hosting/300191675-4330ea31-3f15-45b0-962c-ca5a85041f02.5tz3jj54f2ps.webp)
-
-
-<br>
-
-## 🎞️ DEMO
-
-[![hifi tui](https://img.youtube.com/vi/TfIWc5sQ2M0/0.jpg)](https://www.youtube.com/watch?v=TfIWc5sQ2M0)
-
-
-<br>
-
-## 📡 API DOCUMENTATION (No account required)
-
-> [!TIP]
-> The same API endpoints are used for self-hosted instances — just change your domain.
-
-
-------------------------------------------------------------------------------------------
-
-<details>
-
- <summary><code>GET</code>   <code><b>/track/</b></code> </summary>
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `id`       |  integer  | Track Id = `286266926` |
-> | `quality`  |  string   | Song Quality = `HI_RES_LOSSLESS` or `HI_RES` or `LOSSLESS` or `HIGH` or `LOW ` |
-
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/track/?id=286266926&quality=LOSSLESS"
-    
-
-![image](https://github.com/sachinsenal0x64/Hifi-Tui/assets/127573781/e586ec03-68eb-4c54-b6ee-251093f4b8a6)
-
-<br>
-
-
-### Response
-
-  ```json
+```json
 {
-        "albumPeakAmplitude": 1.0,
-        "albumReplayGain": -9.18,
+    "version": "2.0",
+    "data": {
+        "id": 48717877,
+        "title": "Waiting For Love",
+        "duration": 273,
+        "replayGain": -12.41,
+        "peak": 0.999969,
+        "allowStreaming": true,
+        "streamReady": true,
+        "payToStream": false,
+        "adSupportedStreamReady": true,
+        "djReady": true,
+        "stemReady": false,
+        "streamStartDate": "2015-07-10T00:00:00.000+0000",
+        "premiumStreamingOnly": false,
+        "trackNumber": 6,
+        "volumeNumber": 1,
+        "version": "Marshmello Remix",
+        "popularity": 51,
+        "copyright": "℗ 2015 Avicii Music AB",
+        "bpm": 142,
+        "key": "E",
+        "keyScale": "MAJOR",
+        "url": "http://www.tidal.com/track/48717877",
+        "isrc": "CHB701400185",
+        "editable": false,
+        "explicit": false,
+        "audioQuality": "LOSSLESS",
+        "audioModes": [
+            "STEREO"
+        ],
+        "mediaMetadata": {
+            "tags": [
+                "LOSSLESS"
+            ]
+        },
+        "upload": false,
+        "accessType": "PUBLIC",
+        "spotlighted": false,
+        "artist": {
+            "id": 3637201,
+            "name": "Avicii",
+            "handle": null,
+            "type": "MAIN",
+            "picture": "c40836c8-3266-4b00-8274-a2ecb6ccd4ad"
+        },
+        "artists": [
+            {
+                "id": 3637201,
+                "name": "Avicii",
+                "handle": null,
+                "type": "MAIN",
+                "picture": "c40836c8-3266-4b00-8274-a2ecb6ccd4ad"
+            }
+        ],
+        "album": {
+            "id": 48717868,
+            "title": "Waiting For Love (Remixes)",
+            "cover": "870a9a38-cd1e-4644-93fd-044aa3be4142",
+            "vibrantColor": "#f3ab4a",
+            "videoCover": null
+        },
+        "mixes": {
+            "TRACK_MIX": "00190c526a5b574ea83f372447ba67"
+        }
+    }
+}
+```
+
+> [!NOTE]
+>
+> See [Track Flows/Playing a song](#) for how to handle this response, including how to display song names properly.
+
+### `GET /track/`
+
+#### Params
+
+- `id`: `int` (required) - the Tidal ID of the track.
+- `quality`: `str` (optional, defaults to `HI_RES_LOSSLESS`) - the quality that the track should be presented in. (`HI_RES_LOSSLESS` - up to 24-bit/192kHz FLAC, `LOSSLESS` - 16-bit/44.1kHz FLAC, `HIGH` - 320kbps AAC, `LOW` - 96kbps AAC)
+
+#### Response
+
+`200 OK`
+
+##### CD Lossless/AAC
+
+```json
+{
+    "version": "2.0",
+    "data": {
+        "trackId": 48717877,
         "assetPresentation": "FULL",
         "audioMode": "STEREO",
         "audioQuality": "LOSSLESS",
-        "bitDepth": 16,
-        "manifest": "base64 manifest",
         "manifestMimeType": "application/vnd.tidal.bts",
-        "sampleRate": 44100,
-        "trackId": 286266926,
-        "trackPeakAmplitude": 0.988482,
-        "trackReplayGain": -7.89
-    },
-    {
-        "originalTrack": "aka song track"
+        "manifestHash": "/smSLXXzSAVB+EsSVgyRzxtDuDo9rxPAH7n4tDwuXU4=",
+        "manifest": "eyJtaW1lVHlwZSI6ImF1ZGlvL2ZsYWMiLCJjb2RlY3MiOiJmbGFjIiwiZW5jcnlwdGlvblR5cGUiOiJOT05FIiwidXJscyI6WyJodHRwczovL2xnZi5hdWRpby50aWRhbC5jb20vbWVkaWF0cmFja3MvQ0FFYUt3Z0RFaWRtWWpSaVpUQmlOalUzWWpRNE4yUTVNREJsWkdKaE56bGhPR0ppT1dNME1WODJNUzV0Y0RRLzAuZmxhYz90b2tlbj0xNzY2ODcwMDU3fk5UVmlNamhtWWpkak9UTmlOV1U0TVRNM1l6SXdOVGN4TTJRM05qVmhOakptWTJFeU5EWXdNZz09Il19",
+        "albumReplayGain": -12.41,
+        "albumPeakAmplitude": 0.999969,
+        "trackReplayGain": -11.07,
+        "trackPeakAmplitude": 0.999969,
+        "bitDepth": 16,
+        "sampleRate": 44100
     }
+}
 ```
-<br>
 
+Where `manifest` is either base64 encoded JSON (use `"manifestMimeType": "application/vnd.tidal.bts"` to identify).
 
-### Status Codes
+###### Decoded Manifest (formatted)
 
-HIFI returns the following status codes in its API:
+```json
+{
+  "mimeType": "audio/flac",
+  "codecs": "flac",
+  "encryptionType": "NONE",
+  "urls": [
+    "https://lgf.audio.tidal.com/mediatracks/CAEaKwgDEidmYjRiZTBiNjU3YjQ4N2Q5MDBlZGJhNzlhOGJiOWM0MV82MS5tcDQ/0.flac?token=1766870057~NTViMjhmYjdjOTNiNWU4MTM3YzIwNTcxM2Q3NjVhNjJmY2EyNDYwMg=="
+  ]
+}
+```
 
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
+##### CD Lossless/Hi-Res Lossless
 
+```json
+{
+    "version": "2.0",
+    "data": {
+        "trackId": 194567102,
+        "assetPresentation": "FULL",
+        "audioMode": "STEREO",
+        "audioQuality": "HI_RES_LOSSLESS",
+        "manifestMimeType": "application/dash+xml",
+        "manifestHash": "yyQEQ8ZX8ITLjQfFu0ADBdh/y03PpUd0NEPBz7RcuHk=",
+        "manifest": "PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz48TVBEIHhtbG5zPSJ1cm46bXBlZzpkYXNoOnNjaGVtYTptcGQ6MjAxMSIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOmNlbmM9InVybjptcGVnOmNlbmM6MjAxMyIgeHNpOnNjaGVtYUxvY2F0aW9uPSJ1cm46bXBlZzpkYXNoOnNjaGVtYTptcGQ6MjAxMSBEQVNILU1QRC54c2QiIHByb2ZpbGVzPSJ1cm46bXBlZzpkYXNoOnByb2ZpbGU6aXNvZmYtbWFpbjoyMDExIiB0eXBlPSJzdGF0aWMiIG1pbkJ1ZmZlclRpbWU9IlBUMy45OTNTIiBtZWRpYVByZXNlbnRhdGlvbkR1cmF0aW9uPSJQVDJNNDIuODc5UyI+PFBlcmlvZCBpZD0iMCI+PEFkYXB0YXRpb25TZXQgaWQ9IjAiIGNvbnRlbnRUeXBlPSJhdWRpbyIgbWltZVR5cGU9ImF1ZGlvL21wNCIgc2VnbWVudEFsaWdubWVudD0idHJ1ZSI+PFJlcHJlc2VudGF0aW9uIGlkPSIwIiBjb2RlY3M9ImZsYWMiIGJhbmR3aWR0aD0iMTY2NzU1MyIgYXVkaW9TYW1wbGluZ1JhdGU9IjQ0MTAwIj48U2VnbWVudFRlbXBsYXRlIHRpbWVzY2FsZT0iNDQxMDAiIGluaXRpYWxpemF0aW9uPSJodHRwczovL3NwLWFkLWNmLmF1ZGlvLnRpZGFsLmNvbS9tZWRpYXRyYWNrcy9HaXNJQXhJbk9XWTBNVGs1WXpVMFpESmpaRGhqTm1RM1ptWXdOV0ZsTVdVNVpqTXpOR1ZmTmpJdWJYQTBJaUFkQUFDQVFDQUNLaENoT1h0R0VnMjNPV3duT3lra0lRRG1NZ1VOQUFDZ1FRLzAubXA0P1BvbGljeT1leUpUZEdGMFpXMWxiblFpT2lCYmV5SlNaWE52ZFhKalpTSTZJbWgwZEhCek9pOHZjM0F0WVdRdFkyWXVZWFZrYVc4dWRHbGtZV3d1WTI5dEwyMWxaR2xoZEhKaFkydHpMMGRwYzBsQmVFbHVUMWRaTUUxVWF6VlplbFV3V2tSS2FscEVhR3BPYlZFeldtMVpkMDVYUm14TlYxVTFXbXBOZWs1SFZtWk9ha2wxWWxoQk1FbHBRV1JCUVVOQlVVTkJRMHRvUTJoUFdIUkhSV2N5TTA5WGQyNVBlV3RyU1ZGRWJVMW5WVTVCUVVOblVWRXZLaUlzSWtOdmJtUnBkR2x2YmlJNmV5SkVZWFJsVEdWemMxUm9ZVzRpT25zaVFWZFRPa1Z3YjJOb1ZHbHRaU0k2TVRjMk5qZzNNRFEzTW4xOWZWMTkmYW1wO1NpZ25hdHVyZT12WH51cFNqWEJVVVRKMmdTMGRoTnVrY1ozLUNIaFNNd2ozUzIzWXVzNGpaMEV3QlNiZEJXT2xmeW5yWmxOYnQ2V0t0QjA4OGppZzM5d1YteHpERUx5RHlnTk4zb2E4Zk01cDVVaFQ3T0JKUWc2Q35pSzlEZ3FleE9ka3ZzeEpMbVlOUFdSYzJ2Qkt+TGRPbG1qNVVybEdmbGhYUHRZTn42d2g0aWQ3MHlQcllyVkNHdFZJT1ZzZlAyanpHRDFNM1EyVTkxMGNuOWdPYU15aU9YSUtncDl4MXhFajhEZW9QVDZPY3hiNC1HfmtBUzBhTDlJSFlNdn42RjMzWnU1Si1KdTFIQmN3MmNHV1IwVWZiNHM0ZUpEaE1kdWxHT1hLRmROVVlkdHVqZGdpcXBiSWlXajVWaUNieHJZa1JQVEZ0OXdncS1yMnVRWE1wOGFIZzd2MFZOV1FfXyZhbXA7S2V5LVBhaXItSWQ9SzE0TFpDWjlRVUk0SkwiIG1lZGlhPSJodHRwczovL3NwLWFkLWNmLmF1ZGlvLnRpZGFsLmNvbS9tZWRpYXRyYWNrcy9HaXNJQXhJbk9XWTBNVGs1WXpVMFpESmpaRGhqTm1RM1ptWXdOV0ZsTVdVNVpqTXpOR1ZmTmpJdWJYQTBJaUFkQUFDQVFDQUNLaENoT1h0R0VnMjNPV3duT3lra0lRRG1NZ1VOQUFDZ1FRLyROdW1iZXIkLm1wND9Qb2xpY3k9ZXlKVGRHRjBaVzFsYm5RaU9pQmJleUpTWlhOdmRYSmpaU0k2SW1oMGRIQnpPaTh2YzNBdFlXUXRZMll1WVhWa2FXOHVkR2xrWVd3dVkyOXRMMjFsWkdsaGRISmhZMnR6TDBkcGMwbEJlRWx1VDFkWk1FMVVhelZaZWxVd1drUkthbHBFYUdwT2JWRXpXbTFaZDA1WFJteE5WMVUxV21wTmVrNUhWbVpPYWtsMVlsaEJNRWxwUVdSQlFVTkJVVU5CUTB0b1EyaFBXSFJIUldjeU0wOVhkMjVQZVd0clNWRkViVTFuVlU1QlFVTm5VVkV2S2lJc0lrTnZibVJwZEdsdmJpSTZleUpFWVhSbFRHVnpjMVJvWVc0aU9uc2lRVmRUT2tWd2IyTm9WR2x0WlNJNk1UYzJOamczTURRM01uMTlmVjE5JmFtcDtTaWduYXR1cmU9dlh+dXBTalhCVVVUSjJnUzBkaE51a2NaMy1DSGhTTXdqM1MyM1l1czRqWjBFd0JTYmRCV09sZnluclpsTmJ0NldLdEIwODhqaWczOXdWLXh6REVMeUR5Z05OM29hOGZNNXA1VWhUN09CSlFnNkN+aUs5RGdxZXhPZGt2c3hKTG1ZTlBXUmMydkJLfkxkT2xtajVVcmxHZmxoWFB0WU5+NndoNGlkNzB5UHJZclZDR3RWSU9Wc2ZQMmp6R0QxTTNRMlU5MTBjbjlnT2FNeWlPWElLZ3A5eDF4RWo4RGVvUFQ2T2N4YjQtR35rQVMwYUw5SUhZTXZ+NkYzM1p1NUotSnUxSEJjdzJjR1dSMFVmYjRzNGVKRGhNZHVsR09YS0ZkTlVZZHR1amRnaXFwYklpV2o1VmlDYnhyWWtSUFRGdDl3Z3EtcjJ1UVhNcDhhSGc3djBWTldRX18mYW1wO0tleS1QYWlyLUlkPUsxNExaQ1o5UVVJNEpMIiBzdGFydE51bWJlcj0iMSI+PFNlZ21lbnRUaW1lbGluZT48UyBkPSIxNzYxMjgiIHI9IjM5Ii8+PFMgZD0iMTM3ODYwIi8+PC9TZWdtZW50VGltZWxpbmU+PC9TZWdtZW50VGVtcGxhdGU+PExhYmVsPkZMQUNfSElSRVM8L0xhYmVsPjwvUmVwcmVzZW50YXRpb24+PC9BZGFwdGF0aW9uU2V0PjwvUGVyaW9kPjwvTVBEPg==",
+        "albumReplayGain": -8.91,
+        "albumPeakAmplitude": 0.970377,
+        "trackReplayGain": -8.91,
+        "trackPeakAmplitude": 0.970377,
+        "bitDepth": 24,
+        "sampleRate": 44100
+    }
+}
+```
 
-</details>
+Where `manifest` is base64 encoded MPD manifest (use `"manifestMimeType": "application/dash+xml"` to identify).
 
-------------------------------------------------------------------------------------------
+> [!NOTE]
+>
+> See [Track Flows/Playing a song](#) for how to handle MPD in the web.
 
-<details>
-
- <summary><code>GET</code>   <code><b>/dash/</b></code> </summary>
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `id`       |  integer  | Track Id = `286266926` |
-> | `quality`  |  string   | Song Quality = `HI_RES_LOSSLESS` or `HI_RES` or `LOSSLESS` or `HIGH` or `LOW ` |
-
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/dash/?id=286266926&quality=HI_RES_LOSSLESS"
-
-<br>
-
-
-### Response
-
-XML-encoded MPEG-DASH manifest. Play on VLC/FFMpeg/Google Shaka Player (see note below).
+###### Decoded Manifest (formatted)
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
@@ -341,802 +205,270 @@ XML-encoded MPEG-DASH manifest. Play on VLC/FFMpeg/Google Shaka Player (see note
 	xmlns="urn:mpeg:dash:schema:mpd:2011"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:cenc="urn:mpeg:cenc:2013" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd" profiles="urn:mpeg:dash:profile:isoff-main:2011" type="static" minBufferTime="PT3.925S" mediaPresentationDuration="PT3M14.607S">
+	xmlns:cenc="urn:mpeg:cenc:2013" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd" profiles="urn:mpeg:dash:profile:isoff-main:2011" type="static" minBufferTime="PT3.993S" mediaPresentationDuration="PT2M42.879S">
 	<Period id="0">
 		<AdaptationSet id="0" contentType="audio" mimeType="audio/mp4" segmentAlignment="true">
-			<Representation id="0" codecs="flac" bandwidth="1741283" audioSamplingRate="48000">
-				<SegmentTemplate timescale="48000" initialization="https://sp-ad-fa.audio.tidal.com/mediatracks/GigIAxIkY2VmNTNmMWRkMDVhMmMxYmU2YTQ1N2ExNmJmNDZmY2YubXA0IiAdAACAQCACKhAKFXRoxO9p3fvNd34d7sokMgUNAACgQQ/0.mp4?token=1759786386~L21lZGlhdHJhY2tzL0dpZ0lBeElrWTJWbU5UTm1NV1JrTURWaE1tTXhZbVUyWVRRMU4yRXhObUptTkRabVkyWXViWEEwSWlBZEFBQ0FRQ0FDS2hBS0ZYUm94TzlwM2Z2TmQzNGQ3c29rTWdVTkFBQ2dRUS8qfmM4NzFkODM0NGYxNThlYmM1Y2U4ODkzYTI3YjgyNTQ2ZTIyYzc4NGU=" media="https://sp-ad-fa.audio.tidal.com/mediatracks/GigIAxIkY2VmNTNmMWRkMDVhMmMxYmU2YTQ1N2ExNmJmNDZmY2YubXA0IiAdAACAQCACKhAKFXRoxO9p3fvNd34d7sokMgUNAACgQQ/$Number$.mp4?token=1759786386~L21lZGlhdHJhY2tzL0dpZ0lBeElrWTJWbU5UTm1NV1JrTURWaE1tTXhZbVUyWVRRMU4yRXhObUptTkRabVkyWXViWEEwSWlBZEFBQ0FRQ0FDS2hBS0ZYUm94TzlwM2Z2TmQzNGQ3c29rTWdVTkFBQ2dRUS8qfmM4NzFkODM0NGYxNThlYmM1Y2U4ODkzYTI3YjgyNTQ2ZTIyYzc4NGU=" startNumber="1">
+			<Representation id="0" codecs="flac" bandwidth="1667553" audioSamplingRate="44100">
+				<SegmentTemplate timescale="44100" initialization="https://sp-ad-cf.audio.tidal.com/mediatracks/GisIAxInOWY0MTk5YzU0ZDJjZDhjNmQ3ZmYwNWFlMWU5ZjMzNGVfNjIubXA0IiAdAACAQCACKhChOXtGEg23OWwnOykkIQDmMgUNAACgQQ/0.mp4?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vc3AtYWQtY2YuYXVkaW8udGlkYWwuY29tL21lZGlhdHJhY2tzL0dpc0lBeEluT1dZME1UazVZelUwWkRKalpEaGpObVEzWm1Zd05XRmxNV1U1WmpNek5HVmZOakl1YlhBMElpQWRBQUNBUUNBQ0toQ2hPWHRHRWcyM09Xd25PeWtrSVFEbU1nVU5BQUNnUVEvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2Njg3MDQ3Mn19fV19&amp;Signature=vX~upSjXBUUTJ2gS0dhNukcZ3-CHhSMwj3S23Yus4jZ0EwBSbdBWOlfynrZlNbt6WKtB088jig39wV-xzDELyDygNN3oa8fM5p5UhT7OBJQg6C~iK9DgqexOdkvsxJLmYNPWRc2vBK~LdOlmj5UrlGflhXPtYN~6wh4id70yPrYrVCGtVIOVsfP2jzGD1M3Q2U910cn9gOaMyiOXIKgp9x1xEj8DeoPT6Ocxb4-G~kAS0aL9IHYMv~6F33Zu5J-Ju1HBcw2cGWR0Ufb4s4eJDhMdulGOXKFdNUYdtujdgiqpbIiWj5ViCbxrYkRPTFt9wgq-r2uQXMp8aHg7v0VNWQ__&amp;Key-Pair-Id=K14LZCZ9QUI4JL" media="https://sp-ad-cf.audio.tidal.com/mediatracks/GisIAxInOWY0MTk5YzU0ZDJjZDhjNmQ3ZmYwNWFlMWU5ZjMzNGVfNjIubXA0IiAdAACAQCACKhChOXtGEg23OWwnOykkIQDmMgUNAACgQQ/$Number$.mp4?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vc3AtYWQtY2YuYXVkaW8udGlkYWwuY29tL21lZGlhdHJhY2tzL0dpc0lBeEluT1dZME1UazVZelUwWkRKalpEaGpObVEzWm1Zd05XRmxNV1U1WmpNek5HVmZOakl1YlhBMElpQWRBQUNBUUNBQ0toQ2hPWHRHRWcyM09Xd25PeWtrSVFEbU1nVU5BQUNnUVEvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2Njg3MDQ3Mn19fV19&amp;Signature=vX~upSjXBUUTJ2gS0dhNukcZ3-CHhSMwj3S23Yus4jZ0EwBSbdBWOlfynrZlNbt6WKtB088jig39wV-xzDELyDygNN3oa8fM5p5UhT7OBJQg6C~iK9DgqexOdkvsxJLmYNPWRc2vBK~LdOlmj5UrlGflhXPtYN~6wh4id70yPrYrVCGtVIOVsfP2jzGD1M3Q2U910cn9gOaMyiOXIKgp9x1xEj8DeoPT6Ocxb4-G~kAS0aL9IHYMv~6F33Zu5J-Ju1HBcw2cGWR0Ufb4s4eJDhMdulGOXKFdNUYdtujdgiqpbIiWj5ViCbxrYkRPTFt9wgq-r2uQXMp8aHg7v0VNWQ__&amp;Key-Pair-Id=K14LZCZ9QUI4JL" startNumber="1">
 					<SegmentTimeline>
-						<S d="188416" r="48"/>
-						<S d="108786"/>
+						<S d="176128" r="39"/>
+						<S d="137860"/>
 					</SegmentTimeline>
 				</SegmentTemplate>
+				<Label>FLAC_HIRES</Label>
 			</Representation>
 		</AdaptationSet>
 	</Period>
 </MPD>
 ```
-#### MPV Player
 
-```sh
- mpv https://tidal.401658.xyz/dash/?id=286266926&quality=HI_RES_LOSSLESS
+### `GET /search/`
 
-```
+#### Params
 
-<img width="913" height="218" alt="image" src="https://github.com/user-attachments/assets/c6d0cad4-fc44-412b-8f0e-0ad870cc3ae2" />
+Specify only **one** of the following - specifying more doesn't do anything.
 
+- `s`: `str` - track query
+- `a`: `str` - artist query
+- `v`: `str` - video query (not tested, caution!)
+- `p`: `str` - playlist query
 
-#### Google Shaka Player
+#### Response
 
-The API does not support HEAD requests so use this code to disable them:
+##### Track
 
-```js
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-    // Convert any HEAD requests to GET
-    if (request.method === 'HEAD') {
-        request.method = 'GET';
-    }
-});
-```
-
-
-### Status Codes
-
-HIFI returns the following status codes in its API:
-
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
-
-
-</details>
-
-------------------------------------------------------------------------------------------
-
-
-
-<details>
-
- <summary><code>GET</code>   <code><b>/search/</b></code> </summary>
-
-## Request
-
-<br>
-
-> | Parameter | Type | Description |
-> |------|--------|-------------|
-> | `s`  | string |  Name = `Spaceship`|
-> | `a`  | string |  Artist Name = `Kanye West`|
-> | `al` | string |  Album Name = `Late Registration`|
-> | `v`  | string |  Video Name = `Spaceship`|
-> | `p`  | string |  Playlist Name = `Pop Hits`|
-
-<br>
-
-#### Example
->HTTPie
-
-    https GET "https://tidal.401658.xyz/search/?s=Consequence"
-
-![2023-11-19_03-05](https://github.com/sachinsenal0x64/Hifi-Tui/assets/127573781/35041774-394c-4b17-9cfd-927e5e113da3)
-
-<br>
-
-
-### Response
+`200 OK`
 
 ```json
-
 {
-  "limit": 1,
-  "offset": 0,
-  "totalNumberOfItems": 200,
-  "items": [
-    {
-      "id": 82448461,
-      "title": "Consequence",
-      "duration": 313,
-      "replayGain": -9.88,
-      "peak": 1,
-      "allowStreaming": true,
-      "streamReady": true,
-      "streamStartDate": "2017-12-05T00:00:00.000+0000",
-      "premiumStreamingOnly": false,
-      "trackNumber": 10,
-      "volumeNumber": 1,
-      "version": null,
-      "popularity": 6,
-      "copyright": "City Slang/big Store",
-      "url": "http://www.tidal.com/track/82448461",
-      "isrc": "DED620118410",
-      "editable": false,
-      "explicit": false,
-      "audioQuality": "LOSSLESS",
-      "audioModes": [
-        "STEREO"
-      ],
-      "artist": {
-        "id": 3529689,
-        "name": "The Notwist",
-        "type": "MAIN"
-      },
-      "artists": [
-        {
-          "id": 3529689,
-          "name": "The Notwist",
-          "type": "MAIN"
-        }
-      ],
-      "album": {
-        "id": 82448449,
-        "title": "Neon Golden",
-        "cover": "ad3ed5f3-37a2-4b27-9002-b83459ab5a0e",
-        "videoCover": null
-      },
-      "mixes": {
-        "TRACK_MIX": "001981d70c53d5448599714c407079"
-      }
-    }
-  ]
-}
-
-```
-
-<br>
-
-### Status Codes
-
-HIFI returns the following status codes in its API:
-
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
-
-
-------------------------------------------------------------------------------------------
-
-</details>
-
-
-------------------------------------------------------------------------------------------
-
-<details>
-
-<summary><code>GET</code> <code><b>/cover/</b></code></summary>
-
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `id`       |  integer  | Track Id = `328060990` |
-> | `q`     |  string      | Song Name = `Maestro` |
-
-<br>
-
-> #### Sizes = `1280px | 640px | 80px `
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/cover/?q=Maestro"
-    https GET "https://tidal.401658.xyz/cover/?id=328060990"
-    
-
-![image](https://github.com/sachinsenal0x64/Hifi-Tui/assets/127573781/42b43878-00c5-4d35-8210-2cca466bc594)
-
-
-<br>
-
-
-### Response
-
-  ```json
-[
-    {
-        "1280": "https://resources.tidal.com/images/6f5c52be/c21c/4fb7/9ce6/0c270f6f1a5a/1280x1280.jpg",
-        "640": "https://resources.tidal.com/images/6f5c52be/c21c/4fb7/9ce6/0c270f6f1a5a/640x640.jpg",
-        "80": "https://resources.tidal.com/images/6f5c52be/c21c/4fb7/9ce6/0c270f6f1a5a/80x80.jpg",
-        "id": 328060988,
-        "name": "Maestro: Music by Leonard Bernstein (Original Soundtrack / Dolby Atmos)"
-    }
-]
-```
-
-</details>
-
-------------------------------------------------------------------------------------------
-
-
-<details>
-
-
- <summary><code>GET</code>   <code><b>/song/</b></code> </summary>
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `q`        |  string   | Song Query   =  `Mine` |
-> | `quality`  |  string   | Song Quality = `HI_RES_LOSSLESS` or `HI_RES` or `LOSSLESS` or `HIGH` or `LOW ` |
-
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/song/?q=Mine&quality=HI_RES"
-    
-
-![image](https://sachinsenal0x64.github.io/picx-images-hosting/2024-02-07-20:19:04-screenshot.5zw9tsa19wcg.webp)
-
-<br>
-
-### Response
-
-  ```json
-{
-    "OriginalTrackUrl": "track url",
-    "Song Info": {
-        "adSupportedStreamReady": true,
-        "album": {
-            "cover": "22b8ce2a-1912-4fc6-956f-3be5eb4a7f4c",
-            "id": 79712262,
-            "title": "Mine",
-            "vibrantColor": "#a7d9fc",
-            "videoCover": null
-        },
+  "version": "2.0",
+  "data": {
+    "limit": 25,
+    "offset": 0,
+    "totalNumberOfItems": 300,
+    "items": [
+      {
+        "id": 396931358,
+        "title": "Stained",
+        "duration": 185,
+        "replayGain": -11.66,
+        "peak": 1,
         "allowStreaming": true,
+        "streamReady": true,
+        "payToStream": false,
+        "adSupportedStreamReady": true,
+        "djReady": true,
+        "stemReady": false,
+        "streamStartDate": "2024-11-15T00:00:00.000+0000",
+        "premiumStreamingOnly": false,
+        "trackNumber": 9,
+        "volumeNumber": 1,
+        "version": null,
+        "popularity": 69,
+        "copyright": "℗ 2024 Linkin Park, LLC under exclusive license to Warner Records Inc.",
+        "bpm": 92,
+        "key": "FSharp",
+        "keyScale": "MAJOR",
+        "url": "http://www.tidal.com/track/396931358",
+        "isrc": "USWB12403471",
+        "editable": false,
+        "explicit": false,
+        "audioQuality": "LOSSLESS",
+        "audioModes": [
+          "STEREO"
+        ],
+        "mediaMetadata": {
+          "tags": [
+            "LOSSLESS",
+            "HIRES_LOSSLESS"
+          ]
+        },
+        "upload": false,
+        "accessType": null,
+        "spotlighted": false,
         "artist": {
-            "id": 7384212,
-            "name": "Bazzi",
-            "picture": "2726f1e5-0435-4c49-a6f7-c2192544638f",
-            "type": "MAIN"
+          "id": 14123,
+          "name": "Linkin Park",
+          "handle": null,
+          "type": "MAIN",
+          "picture": "fbd7e516-5e69-439d-babb-485b98f60f89"
         },
         "artists": [
-            {
-                "id": 7384212,
-                "name": "Bazzi",
-                "picture": "2726f1e5-0435-4c49-a6f7-c2192544638f",
-                "type": "MAIN"
-            }
+          {
+            "id": 14123,
+            "name": "Linkin Park",
+            "handle": null,
+            "type": "MAIN",
+            "picture": "fbd7e516-5e69-439d-babb-485b98f60f89"
+          }
         ],
-        "audioModes": [
-            "STEREO"
-        ],
-        "audioQuality": "HI_RES",
-        "copyright": "2017",
-        "djReady": true,
-        "duration": 134,
-        "editable": false,
-        "explicit": true,
-        "id": 79712263,
-        "isrc": "USAT21704227",
-        "mediaMetadata": {
-            "tags": [
-                "LOSSLESS",
-                "MQA"
-            ]
+        "album": {
+          "id": 396931349,
+          "title": "From Zero",
+          "cover": "3f49a481-68e5-46e4-a57a-5da8a75aa106",
+          "vibrantColor": "#ddb4e8",
+          "videoCover": null
         },
         "mixes": {
-            "TRACK_MIX": "0014833cd62b1eecd3b24115e5f8d4"
-        },
-        "peak": 0.997437,
-        "popularity": 64,
-        "premiumStreamingOnly": false,
-        "replayGain": -10.39,
-        "stemReady": false,
-        "streamReady": true,
-        "streamStartDate": "2017-10-12T00:00:00.000+0000",
-        "title": "Mine",
-        "trackNumber": 1,
-        "url": "http://www.tidal.com/track/79712263",
-        "version": null,
-        "volumeNumber": 1
-    },
-    "Track Info": {
-        "albumPeakAmplitude": 0.997437,
-        "albumReplayGain": -10.39,
-        "assetPresentation": "FULL",
-        "audioMode": "STEREO",
-        "audioQuality": "HI_RES",
-        "manifest": "base64 manifest",
-        "manifestMimeType": "application/vnd.tidal.bts",
-        "trackId": 79712263,
-        "trackPeakAmplitude": 0.997437,
-        "trackReplayGain": -10.39
-    }
-}
-
-```
-
-### Status Codes
-
-HIFI returns the following status codes in its API:
-
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
-
-
-</details>
-
-------------------------------------------------------------------------------------------
-
-<details>
-
- <summary><code>GET</code>   <code><b>/album/</b></code> </summary>
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `id`       |  integer  | Album Id = `286266925` |
-
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/album/?id=286266925"
-    
-
-![image](https://github.com/sachinsenal0x64/picx-images-hosting/raw/master/2024-02-20-19:33:52-screenshot.99t2w3gelf.webp)
-
-<br>
-
-
-### Response
-
-  ```json
- {
-        "adSupportedStreamReady": true,
+          "TRACK_MIX": "0019faa01a1a2bed8ba6074367187c"
+        }
+      },
+      {
+        "id": 4081586,
+        "title": "Tear Stained Eye",
+        "duration": 261,
+        "replayGain": -9.62,
+        "peak": 0.965942,
         "allowStreaming": true,
+        "streamReady": true,
+        "payToStream": false,
+        "adSupportedStreamReady": true,
+        "djReady": true,
+        "stemReady": false,
+        "streamStartDate": "2008-12-23T00:00:00.000+0000",
+        "premiumStreamingOnly": false,
+        "trackNumber": 3,
+        "volumeNumber": 1,
+        "version": null,
+        "popularity": 65,
+        "copyright": "℗ 1995 Warner Records Inc.",
+        "bpm": 133,
+        "key": "E",
+        "keyScale": "MAJOR",
+        "url": "http://www.tidal.com/track/4081586",
+        "isrc": "USWB19400071",
+        "editable": false,
+        "explicit": false,
+        "audioQuality": "LOSSLESS",
+        "audioModes": [
+          "STEREO"
+        ],
+        "mediaMetadata": {
+          "tags": [
+            "LOSSLESS"
+          ]
+        },
+        "upload": false,
+        "accessType": null,
+        "spotlighted": false,
         "artist": {
-            "id": 7162333,
-            "name": "Dua Lipa",
-            "picture": "28047130-6ada-4955-b3b9-65bed4508618",
-            "type": "MAIN"
+          "id": 8415,
+          "name": "Son Volt",
+          "handle": null,
+          "type": "MAIN",
+          "picture": "e2232bf1-79bb-4d47-b1da-a01c065f0ea3"
         },
         "artists": [
-            {
-                "id": 7162333,
-                "name": "Dua Lipa",
-                "picture": "28047130-6ada-4955-b3b9-65bed4508618",
-                "type": "MAIN"
-            }
+          {
+            "id": 8415,
+            "name": "Son Volt",
+            "handle": null,
+            "type": "MAIN",
+            "picture": "e2232bf1-79bb-4d47-b1da-a01c065f0ea3"
+          }
         ],
-        "audioModes": [
-            "SONY_360RA"
-        ],
-        "audioQuality": "LOW",
-        "copyright": "℗ 2017 Dua Lipa Limited under exclusive license to Warner Music UK Limited",
-        "cover": "deae7f19-5da7-4d73-97be-ce901911c939",
-        "djReady": true,
-        "duration": 2456,
-        "explicit": false,
-        "id": 157117504,
-        "mediaMetadata": {
-            "tags": [
-                "SONY_360RA"
-            ]
+        "album": {
+          "id": 4081583,
+          "title": "Trace",
+          "cover": "dd01f581-fd3d-4f8a-884d-563603317610",
+          "vibrantColor": "#FFFFFF",
+          "videoCover": null
         },
-        "numberOfTracks": 12,
-        "numberOfVideos": 0,
-        "numberOfVolumes": 1,
-        "popularity": 36,
-        "premiumStreamingOnly": false,
-        "releaseDate": "2020-10-05",
-        "stemReady": false,
-        "streamReady": true,
-        "streamStartDate": "2020-10-05T00:00:00.000+0000",
-        "title": "Dua Lipa (360 Reality Audio)",
-        "type": "ALBUM",
-        "upc": "190295160180",
-        "url": "http://www.tidal.com/album/157117504",
-        "version": null,
-        "vibrantColor": "#6d99c6",
-        "videoCover": null
-    }
+        "mixes": {
+          "TRACK_MIX": "0013bc8f4cb6d7f28c4cd5b0060383"
+        }
+      },
+      <truncated>
+    ]
+  }
+}
 ```
-<br>
 
+##### Artist
 
-### Status Codes
-
-HIFI returns the following status codes in its API:
-
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
-
-
-</details>
-
-------------------------------------------------------------------------------------------
-
-<details>
-
- <summary><code>GET</code>   <code><b>/playlist/</b></code> </summary>
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `id`       |  string  | Playlist UUID = `910c525f-be8a-41a1-b557-2682af2bcef3` |
-
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/playlist/?id=910c525f-be8a-41a1-b557-2682af2bcef3"
-    
-
-![image](https://sachinsenal0x64.github.io/picx-images-hosting/2024-02-20-23:15:31-screenshot.67x6v3b7q9.webp)
-
-<br>
-
-
-### Response
-
-  ```json
- {
-        "created": "2015-04-14T16:32:14.636+0000",
-        "creator": {
-            "id": 5034071,
-            "name": "VIC MENSA",
-            "picture": "cdd212a2-dadc-466d-9703-7216a9f66da1",
-            "type": null
-        },
-        "description": "",
-        "duration": 2696,
-        "image": "c41cfe9b-cda1-4364-b517-f6a706741d24",
-        "lastItemAddedAt": null,
-        "lastUpdated": "2020-03-24T12:27:23.941+0000",
-        "numberOfTracks": 11,
-        "numberOfVideos": 0,
-        "popularity": 0,
-        "promotedArtists": [
-            {
-                "id": 5034071,
-                "name": "VIC MENSA",
-                "picture": null,
-                "type": "MAIN"
-            },
-            {
-                "id": 25022,
-                "name": "Kanye West",
-                "picture": null,
-                "type": "MAIN"
-            },
-            {
-                "id": 3899583,
-                "name": "Theophilus London",
-                "picture": null,
-                "type": "MAIN"
-            },
-            {
-                "id": 5637986,
-                "name": "Allan Kingdom",
-                "picture": null,
-                "type": "MAIN"
-            }
-        ],
-        "publicPlaylist": false,
-        "squareImage": "03750282-401b-481c-bf60-55d6ee9fcc27",
-        "title": "My Playlist",
-        "type": "ARTIST",
-        "url": "http://www.tidal.com/playlist/910c525f-be8a-41a1-b557-2682af2bcef3",
-        "uuid": "910c525f-be8a-41a1-b557-2682af2bcef3"
-    },
-    {
-        "items": [
-            {
-                "cut": null,
-                "item": {
-                    "adSupportedStreamReady": true,
-                    "album": {
-                        "cover": "43929b37-df27-4e1a-81b2-70692c058674",
-                        "id": 44590541,
-                        "releaseDate": "2015-04-16",
-                        "title": "U Mad",
-                        "vibrantColor": "#FFFFFF",
-                        "videoCover": null
-                    },
-                    "allowStreaming": true,
-                    "artist": {
-                        "id": 5034071,
-                        "name": "VIC MENSA",
-                        "picture": "cdd212a2-dadc-466d-9703-7216a9f66da1",
-                        "type": "MAIN"
-                    },
-                    "artists": [
-                        {
-                            "id": 5034071,
-                            "name": "VIC MENSA",
-                            "picture": "cdd212a2-dadc-466d-9703-7216a9f66da1",
-                            "type": "MAIN"
-                        },
-                        {
-                            "id": 25022,
-                            "name": "Kanye West",
-                            "picture": "26076dbd-7361-40d3-9335-f944d2c49ea6",
-                            "type": "FEATURED"
-                        }
-                    ],
-                    "audioModes": [
-                        "STEREO"
-                    ],
-                    "audioQuality": "LOSSLESS",
-                    "copyright": "(C) 2015 Roc Nation Records, LLC",
-                    "dateAdded": "2015-04-15T15:03:19.696+0000",
-                    "description": null,
-                    "djReady": true,
-                    "duration": 300,
-                    "editable": false,
-                    "explicit": true,
-                    "id": 44590542,
-                    "index": 0,
-                    "isrc": "QMJMT1500671",
-                    "itemUuid": "90545040-acc7-44c1-9481-7e48f36cefe8",
-                    "mediaMetadata": {
-                        "tags": [
-                            "LOSSLESS"
-                        ]
-                    },
-                    "mixes": {
-                        "TRACK_MIX": "00169d5b613bbc32050146c8be21df"
-                    },
-                    "peak": 0.999359,
-                    "popularity": 47,
-                    "premiumStreamingOnly": false,
-                    "replayGain": -9.38,
-                    "stemReady": false,
-                    "streamReady": true,
-                    "streamStartDate": "2015-04-10T00:00:00.000+0000",
-                    "title": "U Mad",
-                    "trackNumber": 1,
-                    "url": "http://www.tidal.com/track/44590542",
-                    "version": null,
-                    "volumeNumber": 1
-                },
-                "type": "track"
-            },
-```
-<br>
-
-
-### Status Codes
-
-HIFI returns the following status codes in its API:
-
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
-
-
-</details>
-
-------------------------------------------------------------------------------------------
-
-
-<details>
-
- <summary><code>GET</code>   <code><b>/artist/</b></code> </summary>
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `id`       |  integer  |  Artist ID = `5034071` |
-> | `f`        | integer   |  Artist ID = `5034071`, This will retrieve all the albums and tracks.| 
-
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/artist/?id=5034071"
-    
-
-![image](https://sachinsenal0x64.github.io/picx-images-hosting/2024-02-21-21:19:27-screenshot.1aoq2k57al.webp)
-
-<br>
-
-
-### Response
-
-  ```json
- [
-    {
-        "artistRoles": [
-            {
-                "category": "Artist",
-                "categoryId": -1
-            },
-            {
-                "category": "Songwriter",
-                "categoryId": 2
-            },
-            {
-                "category": "Production team",
-                "categoryId": 10
-            },
-            {
-                "category": "Producer",
-                "categoryId": 1
-            },
-            {
-                "category": "Engineer",
-                "categoryId": 3
-            },
-            {
-                "category": "Performer",
-                "categoryId": 11
-            }
-        ],
-        "artistTypes": [
+```json
+{
+  "version": "2.0",
+  "data": {
+    "artists": {
+      "limit": 25,
+      "offset": 0,
+      "totalNumberOfItems": 73,
+      "items": [
+        {
+          "id": 8812,
+          "name": "Coldplay",
+          "artistTypes": [
             "ARTIST",
             "CONTRIBUTOR"
-        ],
-        "id": 5034071,
-        "mixes": {
-            "ARTIST_MIX": "000720bd7d7867c71a4c63b1fe61cf"
+          ],
+          "url": "http://www.tidal.com/artist/8812",
+          "picture": "b4579672-5b91-4679-a27a-288f097a4da5",
+          "selectedAlbumCoverFallback": null,
+          "popularity": 92,
+          "artistRoles": [
+            {
+              "categoryId": -1,
+              "category": "Artist"
+            },
+            {
+              "categoryId": 1,
+              "category": "Producer"
+            },
+            {
+              "categoryId": 11,
+              "category": "Performer"
+            },
+            {
+              "categoryId": 2,
+              "category": "Songwriter"
+            },
+            {
+              "categoryId": 10,
+              "category": "Production team"
+            },
+            {
+              "categoryId": 99,
+              "category": "Misc"
+            }
+          ],
+          "mixes": {
+            "ARTIST_MIX": "000d63462309f499a611e73b4992bd"
+          },
+          "handle": null,
+          "userId": null,
+          "spotlighted": false
         },
-        "name": "VIC MENSA",
-        "picture": "cdd212a2-dadc-466d-9703-7216a9f66da1",
-        "popularity": 66,
-        "url": "http://www.tidal.com/artist/5034071"
-    },
-    [
         {
-            "750": "https://resources.tidal.com/images/cdd212a2/dadc/466d/9703/7216a9f66da1/750x750.jpg",
-            "id": 5034071,
-            "name": "VIC MENSA"
-        }
+          "id": 39476431,
+          "name": "Coldplay Piano Covers",
+          "artistTypes": [
+            "ARTIST",
+            "CONTRIBUTOR"
+          ],
+          "url": "http://www.tidal.com/artist/39476431",
+          "picture": "3e88ec5b-0058-4185-8c1c-385098528f40",
+          "selectedAlbumCoverFallback": "3e88ec5b-0058-4185-8c1c-385098528f40",
+          "popularity": 28,
+          "artistRoles": [
+            {
+              "categoryId": -1,
+              "category": "Artist"
+            }
+          ],
+          "mixes": {
+
+          },
+          "handle": null,
+          "userId": null,
+          "spotlighted": false
+        },
+        <truncated>
     ]
-]
-
+  }
+}
 ```
-<br>
+
+This API also returning tracks is a known bug.
 
 
-### Status Codes
-
-HIFI returns the following status codes in its API:
-
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
-
-
-</details>
-
-------------------------------------------------------------------------------------------
-
-
-<details>
-
- <summary><code>GET</code>   <code><b>/lyrics/</b></code> </summary>
-
-## Request
-
-
-<br>
-
-> | Parameter  |   Type    | Description |
-> |------------|-----------|-------------|
-> | `id`       |  integer  | Track ID = `286266926` |
-
-
-<br>
-
-#### Example
-
->HTTPie
-
-    https GET "https://tidal.401658.xyz/lyrics/?id=286266926"
-    
-
-![image](https://github.com/sachinsenal0x64/picx-images-hosting/raw/master/2024-04-11-14:31:30-screenshot.3go6nb7skh.webp)
-
-<br>
-
-
-### Response
-
-  ```json
-[
-    {
-        "isRightToLeft": false,
-        "lyrics": "You know I question every motive, everything you say\nThought with you, maybe my heart wasn't meant to break\nCan't believe I let you in, I can't believe I stayed\nAs long as I stayed, yeah\n\nI hope one day someone will take your heart and hold it tight\nMake you feel like you're invincible deep inside\nAnd right when you think that it's perfect, they cross a line\nAnd steal your shine\nLike you did mine\n\nGo ahead and break my heart, that's fine\nSo unkind\nEternal sunshine of the spotless mind\nOh, love is blind\nWhy am I missin' you tonight?\nWas it all a lie?\nSomeone's gonna show you how a heart can be used\nLike you did mine\n\nAnd now, I second-guess my thoughts, every step I take\nI'm losin' hope in love, and I've lost all in faith\nYeah, for a dreamer, I just close my eyes and it's all blank\nI have you to thank, yeah\n\nI hope one day someone will take your heart and hold it tight\nMake you feel like you're invincible deep inside\nAnd right when you think that you'll try again, they cross a line\nAnd steal your shine\nLike you did mine\n\nGo ahead and break my heart, that's fine\nSo unkind\nEternal sunshine of the spotless mind\nOh, love is blind\nWhy am I missin' you tonight?\nWas it all a lie?\nSomeone's gonna show you how a heart can be used\n\nAnd you keep talkin', it'll come back, karma\nIs the truth, I don't make you look bad, you do, darlin'\nSabotage, your choice of art\nWho the hell do you think you are?\n\nGo ahead and break my heart, that's fine\nEternal sunshine of the spotless mind\nWhy am I missin' you tonight?\nSomeone's gonna show you how a heart can be used\nLike you did mine",
-        "lyricsProvider": "MUSIXMATCH",
-        "providerCommontrackId": "158550594",
-        "providerLyricsId": "31545572",
-        "subtitles": "[00:00.48] You know I question every motive, everything you say\n[00:04.51] Thought with you, maybe my heart wasn't meant to break\n[00:08.57] Can't believe I let you in, I can't believe I stayed\n[00:13.40] As long as I stayed, yeah\n[00:16.35] I hope one day someone will take your heart and hold it tight\n[00:20.64] Make you feel like you're invincible deep inside\n[00:24.45] And right when you think that it's perfect, they cross a line\n[00:28.97] And steal your shine\n[00:30.77] Like you did mine\n[00:33.04] Go ahead and break my heart, that's fine\n[00:38.97] So unkind\n[00:40.97] Eternal sunshine of the spotless mind\n[00:46.48] Oh, love is blind\n[00:49.13] Why am I missin' you tonight?\n[00:54.53] Was it all a lie?\n[00:57.18] Someone's gonna show you how a heart can be used\n[01:02.86] Like you did mine\n[01:06.11] \n[01:08.32] And now, I second-guess my thoughts, every step I take\n[01:12.67] I'm losin' hope in love, and I've lost all in faith\n[01:16.42] Yeah, for a dreamer, I just close my eyes and it's all blank\n[01:21.56] I have you to thank, yeah\n[01:24.30] I hope one day someone will take your heart and hold it tight\n[01:28.57] Make you feel like you're invincible deep inside\n[01:32.43] And right when you think that you'll try again, they cross a line\n[01:36.96] And steal your shine\n[01:39.06] Like you did mine\n[01:41.11] Go ahead and break my heart, that's fine\n[01:47.09] So unkind\n[01:49.03] Eternal sunshine of the spotless mind\n[01:54.52] Oh, love is blind\n[01:57.17] Why am I missin' you tonight?\n[02:02.52] Was it all a lie?\n[02:04.93] Someone's gonna show you how a heart can be used\n[02:11.65] And you keep talkin', it'll come back, karma\n[02:17.64] Is the truth, I don't make you look bad, you do, darlin'\n[02:23.79] Sabotage, your choice of art\n[02:29.90] Who the hell do you think you are?\n[02:37.59] Go ahead and break my heart, that's fine\n[02:44.06] Eternal sunshine of the spotless mind\n[02:49.03] \n[02:51.56] Why am I missin' you tonight?\n[02:56.72] \n[02:59.23] Someone's gonna show you how a heart can be used\n[03:05.24] Like you did mine\n[03:06.49] ",
-        "trackId": 286266926
-    }
-]
-
-
-```
-<br>
-
-
-### Status Codes
-
-HIFI returns the following status codes in its API:
-
-> | Status Code | Description |
-> | :---        | :--- |
-> | 200         | `OK` |
-> | 422         | `UNPROCESSABLE CONTENT` |
-> | 404         | `NOT FOUND` |
-> | 500         | `INTERNAL SERVER ERROR` |
-
-
-</details>
-
-------------------------------------------------------------------------------------------
-
-<br>
-
-## 🫂 Contributing
-Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md).
-
-
-<br>
-
-## 🔐 Security Policy
-Please refer to [SECURITY.md](./SECURITY.md).
-
-<br>
-
-## 👩‍⚖️ License
-
-This project is licensed under the terms of the MIT license.
