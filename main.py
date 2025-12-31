@@ -59,7 +59,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-API_VERSION = "2.0"
+API_VERSION = "2.1"
 
 # Config (defaults act as fallback if token file missing)
 CLIENT_ID = os.getenv("CLIENT_ID", "zU4XHVVkc2tDPo4t")
@@ -523,6 +523,21 @@ async def get_cover(
         raise HTTPException(status_code=404, detail="Cover not found")
 
     return {"version": API_VERSION, "covers": covers}
+
+
+@app.get("/lyrics/")
+async def get_lyrics(id: int):
+    url = f"https://api.tidal.com/v1/tracks/{id}/lyrics"
+    data, token, cred = await authed_get_json(
+        url,
+        params={"countryCode": "US", "locale": "en_US", "deviceType": "BROWSER"},
+    )
+
+    if not data:
+        raise HTTPException(status_code=404, detail="Lyrics not found")
+
+    return {"version": API_VERSION, "lyrics": data}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
