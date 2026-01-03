@@ -480,15 +480,28 @@ async def get_artist(
     albums_url = f"https://api.tidal.com/v1/artists/{f}/albums"
     common_params = {"countryCode": "US", "limit": 100}
 
-    results = await asyncio.gather(
+    tasks = [
         authed_get_json(albums_url, params=common_params, token=token, cred=cred),
         authed_get_json(albums_url, params={**common_params, "filter": "EPSANDSINGLES"}, token=token, cred=cred),
-        return_exceptions=True
-    )
+    ]
+
+    if skip_tracks:
+        tasks.append(
+            authed_get_json(
+                f"https://api.tidal.com/v1/artists/{f}/toptracks",
+                params={"countryCode": "US", "limit": 15},
+                token=token,
+                cred=cred
+            )
+        )
+
+    results = await asyncio.gather(*tasks, return_exceptions=True)
 
     unique_releases = []
     seen_ids = set()
-    for res in results:
+    
+    # Process albums (first 2 results)
+    for res in results[:2]:
         if isinstance(res, tuple) and len(res) > 0:
             data, token, cred = res # Update tokens from latest responses
             for item in data.get("items", []):
@@ -501,7 +514,19 @@ async def get_artist(
     album_ids: List[int] = [item["id"] for item in unique_releases]
     page_data = {"items": unique_releases}
 
-    if not album_ids or skip_tracks:
+    if skip_tracks:
+        top_tracks = []
+        if len(results) > 2:
+            res = results[2]
+            if isinstance(res, tuple) and len(res) > 0:
+                data, token, cred = res
+                top_tracks = data.get("items", [])
+            elif isinstance(res, Exception):
+                print(f"Error fetching top tracks: {res}")
+        
+        return {"version": API_VERSION, "albums": page_data, "tracks": top_tracks}
+
+    if not album_ids:
         return {"version": API_VERSION, "albums": page_data, "tracks": []}
 
     sem = asyncio.Semaphore(6)
