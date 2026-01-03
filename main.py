@@ -441,11 +441,13 @@ async def get_similar_albums(
 async def get_artist(
     id: Optional[int] = Query(default=None),
     f: Optional[int] = Query(default=None),
+    skip_tracks: bool = Query(default=False),
 ):
     """Artist detail or album+track aggregation.
 
     - id: basic artist metadata + cover URLs
     - f: fetch artist albums page and aggregate tracks across albums (capped concurrency)
+    - skip_tracks: if true, returns only albums without aggregating tracks (when using 'f')
     """
 
     if id is None and f is None:
@@ -499,7 +501,7 @@ async def get_artist(
     album_ids: List[int] = [item["id"] for item in unique_releases]
     page_data = {"items": unique_releases}
 
-    if not album_ids:
+    if not album_ids or skip_tracks:
         return {"version": API_VERSION, "albums": page_data, "tracks": []}
 
     sem = asyncio.Semaphore(6)
@@ -631,4 +633,4 @@ async def get_lyrics(id: int):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8010)
