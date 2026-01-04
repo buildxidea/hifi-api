@@ -347,19 +347,42 @@ async def get_album(
 
 @app.get("/mix/")
 async def get_mix(
-    id: str = Query(..., description="Mix ID"),
-    country_code: str = Query("US", description="Country Code"),
+    id: str = Query(..., description="Mix ID")
 ):
     """Fetch items from a Tidal mix by its ID."""
     token, cred = await get_tidal_token_for_cred()
-    url = f"https://api.tidal.com/v1/mixes/{id}/items"
+    url = "https://api.tidal.com/v1/pages/mix"
+    params = {
+        "mixId": id,
+        "countryCode": "US",
+        "deviceType": "BROWSER",
+    }
+
     data, _, _ = await authed_get_json(
         url,
-        params={"countryCode": country_code},
+        params=params,
         token=token,
         cred=cred,
     )
-    return {"version": API_VERSION, "items": data.get("items", [])}
+
+    header = {}
+    items = []
+
+    rows = data.get("rows", [])
+    for row in rows:
+        modules = row.get("modules", [])
+        for module in modules:
+            if module.get("type") == "MIX_HEADER":
+                header = module.get("mix", {})
+            elif module.get("type") == "TRACK_LIST":
+                paged_list = module.get("pagedList", {})
+                items = paged_list.get("items", [])
+
+    return {
+        "version": API_VERSION,
+        "mix": header,
+        "items": [item.get("item", item) for item in items],
+    }
 
 
 @app.get("/playlist/")
