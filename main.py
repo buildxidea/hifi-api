@@ -465,6 +465,12 @@ async def get_artist(
         )
 
         picture = artist_data.get("picture")
+        fallback = artist_data.get("selectedAlbumCoverFallback")
+        
+        if not picture and fallback:
+            artist_data["picture"] = fallback
+            picture = fallback
+
         cover = None
         if picture:
             slug = picture.replace("-", "/")
