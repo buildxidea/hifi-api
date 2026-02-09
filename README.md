@@ -10,6 +10,9 @@
 >
 > This documentation is a **work-in-progress**. It is not complete however there is still lots of useful information here.
 
+> [!important]
+> Your reminder that music piracy is *illegal* in most countries and this tool is for use by people with an active Tidal account for educational/homelab purposes.
+
 ## Setup
 
 Run `pip install -r requirements.txt` in `tidal_auth/`. Then run `tidal_auth/tidal_auth.py` and follow the instructions to authenticate. The script saves its output in a file `token.json`. Keep it safe.
