@@ -10,7 +10,7 @@ from typing import Dict, List, Optional, Union
 import httpx
 import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 import logging
@@ -21,6 +21,7 @@ load_dotenv()
 
 # Shared HTTP client is created in app lifespan for connection reuse
 _http_client: Optional[httpx.AsyncClient] = None
+_http_client_lock = asyncio.Lock()
 
 # One lock per credential to avoid global contention during token refreshes
 _refresh_locks: Dict[str, asyncio.Lock] = {}
@@ -28,26 +29,35 @@ _refresh_locks: Dict[str, asyncio.Lock] = {}
 # Loaded credential set from token.json; each entry will be enriched with access cache
 _creds: List[dict] = []
 
+# Global semaphore to limit concurrent album track fetches across all requests
+_album_tracks_sem = asyncio.Semaphore(20)
+
+
+def _build_http_client() -> httpx.AsyncClient:
+    return httpx.AsyncClient(
+        http2=True,
+        timeout=httpx.Timeout(connect=3.0, read=12.0, write=8.0, pool=12.0),
+        limits=httpx.Limits(
+            max_keepalive_connections=500,
+            max_connections=1000,
+            keepalive_expiry=30.0,
+        ),
+    )
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _http_client
-    _http_client = httpx.AsyncClient(
-        http2=True,
-        timeout=httpx.Timeout(connect=3.0, read=12.0, write=8.0, pool=12.0),
-        limits=httpx.Limits(
-            max_keepalive_connections=200,
-            max_connections=300,
-            keepalive_expiry=30.0,
-        ),
-    )
+    if _http_client is None:
+        _http_client = _build_http_client()
     try:
         yield
     finally:
         if _http_client:
             await _http_client.aclose()
+            _http_client = None
 
-API_VERSION = "2.4"
+API_VERSION = "2.5"
 
 app = FastAPI(
     title="HiFi-RestAPI",
@@ -59,7 +69,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -128,9 +138,11 @@ def _lock_for_cred(cred: dict) -> asyncio.Lock:
 
 
 async def get_http_client() -> httpx.AsyncClient:
+    global _http_client
     if _http_client is None:
-        # Fallback for contexts where lifespan is not run (e.g., direct calls)
-        return httpx.AsyncClient(http2=True)
+        async with _http_client_lock:
+            if _http_client is None:
+                _http_client = _build_http_client()
     return _http_client
 
 
@@ -264,7 +276,7 @@ async def get_info(id: int):
 
 @app.get("/track/")
 async def get_track(id: int, quality: str = "HI_RES_LOSSLESS"):
-    track_url = f"https://tidal.com/v1/tracks/{id}/playbackinfo"
+    track_url = f"https://api.tidal.com/v1/tracks/{id}/playbackinfo"
     params = {
         "audioquality": quality,
         "playbackmode": "STREAM",
@@ -275,8 +287,8 @@ async def get_track(id: int, quality: str = "HI_RES_LOSSLESS"):
 
 @app.get("/recommendations/")
 async def get_recommendations(id: int):
-    recommendations_url = f"https://tidal.com/v1/tracks/{id}/recommendations"
-    params = {"limit": "20", "countryCode": "US"}
+    recommendations_url = f"https://api.tidal.com/v1/tracks/{id}/recommendations"
+    params = {"limit": "20", "countryCode": COUNTRY_CODE}
     return await make_request(recommendations_url, params=params)
 
 
@@ -344,8 +356,7 @@ async def get_album(
     items_url = f"https://api.tidal.com/v1/albums/{id}/items"
 
     async def fetch(url: str, params: Optional[dict] = None):
-        nonlocal token, cred
-        payload, token, cred = await authed_get_json(
+        payload, _, _ = await authed_get_json(
             url,
             params=params,
             token=token,
@@ -374,8 +385,9 @@ async def get_album(
 
     all_items = []
     for page in items_pages:
-        page_items = page.get("items", page)
-        all_items.extend(page_items)
+        page_items = page.get("items", page) if isinstance(page, dict) else page
+        if isinstance(page_items, list):
+            all_items.extend(page_items)
 
     album_data["items"] = all_items
 
@@ -421,7 +433,7 @@ async def get_mix(
     return {
         "version": API_VERSION,
         "mix": header,
-        "items": [item.get("item", item) for item in items],
+        "items": [item.get("item", item) if isinstance(item, dict) else item for item in items],
     }
 
 
@@ -439,8 +451,7 @@ async def get_playlist(
     items_url = f"https://api.tidal.com/v1/playlists/{id}/items"
 
     async def fetch(url: str, params: Optional[dict] = None):
-        nonlocal token, cred
-        payload, token, cred = await authed_get_json(
+        payload, _, _ = await authed_get_json(
             url,
             params=params,
             token=token,
@@ -456,7 +467,7 @@ async def get_playlist(
     return {
         "version": API_VERSION,
         "playlist": playlist_data,
-        "items": items_data.get("items", items_data),
+        "items": items_data.get("items", items_data) if isinstance(items_data, dict) else items_data,
     }
 
 
@@ -497,7 +508,7 @@ async def get_similar_artists(
 
         return {
             **attr,
-            "id": int(aid) if aid.isdigit() else aid,
+            "id": int(aid) if str(aid).isdigit() else aid,
             "picture": pic_id or attr.get("selectedAlbumCoverFallback"),
             "url": f"http://www.tidal.com/artist/{aid}",
             "relationType": "SIMILAR_ARTIST"
@@ -545,13 +556,13 @@ async def get_similar_albums(
                  if a_obj := artists_map.get(a_entry["id"]):
                      a_id = a_obj["id"]
                      artist_list.append({
-                         "id": int(a_id) if a_id.isdigit() else a_id,
+                         "id": int(a_id) if str(a_id).isdigit() else a_id,
                          "name": a_obj["attributes"]["name"]
                      })
 
         return {
             **attr,
-            "id": int(aid) if aid.isdigit() else aid,
+            "id": int(aid) if str(aid).isdigit() else aid,
             "cover": cover_id,
             "artists": artist_list,
             "url": f"http://www.tidal.com/album/{aid}"
@@ -635,13 +646,15 @@ async def get_artist(
     # Process albums (first 2 results)
     for res in results[:2]:
         if isinstance(res, tuple) and len(res) > 0:
-            data, token, cred = res # Update tokens from latest responses
-            for item in data.get("items", []):
-                if item.get("id") and item["id"] not in seen_ids:
-                    unique_releases.append(item)
-                    seen_ids.add(item["id"])
+            data = res[0]
+            items = data.get("items", []) if isinstance(data, dict) else data
+            if isinstance(items, list):
+                for item in items:
+                    if isinstance(item, dict) and item.get("id") and item["id"] not in seen_ids:
+                        unique_releases.append(item)
+                        seen_ids.add(item["id"])
         elif isinstance(res, Exception):
-            print(f"Error fetching artist releases: {res}")
+            logger.warning("Error fetching artist releases: %s", res)
 
     album_ids: List[int] = [item["id"] for item in unique_releases]
     page_data = {"items": unique_releases}
@@ -651,22 +664,19 @@ async def get_artist(
         if len(results) > 2:
             res = results[2]
             if isinstance(res, tuple) and len(res) > 0:
-                data, token, cred = res
-                top_tracks = data.get("items", [])
+                data = res[0]
+                top_tracks = data.get("items", []) if isinstance(data, dict) else data
             elif isinstance(res, Exception):
-                print(f"Error fetching top tracks: {res}")
+                logger.warning("Error fetching top tracks: %s", res)
         
         return {"version": API_VERSION, "albums": page_data, "tracks": top_tracks}
 
     if not album_ids:
         return {"version": API_VERSION, "albums": page_data, "tracks": []}
 
-    sem = asyncio.Semaphore(6)
-
     async def fetch_album_tracks(album_id: int):
-        nonlocal token, cred
-        async with sem:
-            album_data, token, cred = await authed_get_json(
+        async with _album_tracks_sem:
+            album_data, _, _ = await authed_get_json(
                 "https://api.tidal.com/v1/pages/album",
                 params={
                     "albumId": album_id,
@@ -685,7 +695,7 @@ async def get_artist(
                 return []
             paged_list = modules[0].get("pagedList", {})
             items = paged_list.get("items", [])
-            tracks = [track.get("item", track) for track in items]
+            tracks = [track.get("item", track) if isinstance(track, dict) else track for track in items]
             return tracks
 
     results = await asyncio.gather(
@@ -787,6 +797,83 @@ async def get_lyrics(id: int):
         raise HTTPException(status_code=404, detail="Lyrics not found")
 
     return {"version": API_VERSION, "lyrics": data}
+
+
+@app.get("/topvideos/")
+async def get_top_videos(
+    countryCode: str = Query(default="US"),
+    locale: str = Query(default="en_US"),
+    deviceType: str = Query(default="BROWSER"),
+    limit: int = Query(default=25, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+):
+    """Fetch recommended videos from Tidal."""
+    token, cred = await get_tidal_token_for_cred()
+    url = "https://api.tidal.com/v1/pages/mymusic_recommended_videos"
+    params = {
+        "countryCode": countryCode,
+        "locale": locale,
+        "deviceType": deviceType,
+    }
+
+    data, token, cred = await authed_get_json(
+        url,
+        params=params,
+        token=token,
+        cred=cred,
+    )
+
+    rows = data.get("rows", [])
+    all_videos = []
+    for row in rows:
+        modules = row.get("modules", [])
+        for module in modules:
+            module_type = module.get("type")
+            if module_type in ("VIDEO_PLAYLIST", "VIDEO_ROW", "PAGED_LIST"):
+                paged_list = module.get("pagedList", {})
+                if paged_list:
+                    items = paged_list.get("items", [])
+                    for item in items:
+                        video = item.get("item", item) if isinstance(item, dict) else item
+                        all_videos.append(video)
+            elif module_type == "VIDEO" or (module_type and "video" in module_type.lower()):
+                item = module.get("item", module)
+                if isinstance(item, dict):
+                    all_videos.append(item)
+
+    paginated = all_videos[offset:offset + limit]
+
+    response = {
+        "version": API_VERSION,
+        "videos": paginated,
+        "total": len(all_videos),
+    }
+    return response
+
+@app.get("/video/")
+async def get_video(
+    id: int = Query(..., description="Video ID"),
+    quality: str = Query(default="HIGH", description="Video quality (HIGH, MEDIUM, LOW)"),
+    mode: str = Query(default="STREAM", description="Playback mode (STREAM, OFFLINE)"),
+    presentation: str = Query(default="FULL", description="Asset presentation (FULL, PREVIEW)"),
+):
+    """Fetch video playback info from Tidal."""
+    token, cred = await get_tidal_token_for_cred()
+    url = f"https://api.tidal.com/v1/videos/{id}/playbackinfo"
+    params = {
+        "videoquality": quality,
+        "playbackmode": mode,
+        "assetpresentation": presentation,
+    }
+
+    data, token, cred = await authed_get_json(
+        url,
+        params=params,
+        token=token,
+        cred=cred,
+    )
+
+    return {"version": API_VERSION, "video": data}
 
 
 if __name__ == "__main__":

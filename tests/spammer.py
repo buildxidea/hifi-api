@@ -1,3 +1,7 @@
+"""
+Spams the API to test load capability and stability.
+"""
+
 import asyncio
 import curses
 import time
