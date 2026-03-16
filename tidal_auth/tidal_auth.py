@@ -4,12 +4,17 @@ import os
 import random
 import webbrowser
 from pathlib import Path
+import base64
 
 import httpx
 import rich
 
 TOKEN_FILE = Path(os.getenv("TOKEN_FILE", Path(__file__).resolve().parent.parent / "token.json"))
 
+CLIENT_ID = base64.b64decode("ZlgySnhkbW50WldLMGl4VA==").decode("iso-8859-1")
+CLIENT_SECRET = base64.b64decode(
+    "MU5tNUFmREFqeHJnSkZKYktOV0xlQXlLR1ZHbUlOdVhQUExIVlhBdnhBZz0=",
+).decode("iso-8859-1")
 
 class Hifi:
     def __init__(self, client_id, scope, url, client_secret):
@@ -85,7 +90,7 @@ async def fetch_credentials():
         keys_data = json.loads(content_str)
         
         hifi_creds = [
-            ("fX2JxdmntZWK0ixT", "1Nn9AfDAjxrgJFJbKNWLeAyKGVGmINuXPPLHVXAvxAg=")
+            (CLIENT_ID, CLIENT_SECRET)
         ]
         other_creds = []
         
