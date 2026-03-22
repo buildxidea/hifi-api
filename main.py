@@ -10,7 +10,7 @@ from typing import Dict, List, Optional, Union
 import httpx
 import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 import logging
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-API_VERSION = "2.6"
+API_VERSION = "2.7"
 
 # Shared HTTP client is created in app lifespan for connection reuse
 _http_client: Optional[httpx.AsyncClient] = None
@@ -76,8 +76,8 @@ app.add_middleware(
 
 
 # Config (defaults act as fallback if token file missing)
-CLIENT_ID = os.getenv("CLIENT_ID", "zU4XHVVkc2tDPo4t")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET", "VJKhDFqJPqvsPVNBV6ukXTJmwlvbttP7wlMlrc72se4=")
+CLIENT_ID = os.getenv("CLIENT_ID", "")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET", "")
 REFRESH_TOKEN: Optional[str] = os.getenv("REFRESH_TOKEN")
 USER_ID = os.getenv("USER_ID")
 TOKEN_FILE = os.getenv("TOKEN_FILE", "token.json")
@@ -275,14 +275,75 @@ async def get_info(id: int):
     return await make_request(url, params={"countryCode": COUNTRY_CODE})
 
 @app.get("/track/")
-async def get_track(id: int, quality: str = "HI_RES_LOSSLESS"):
+async def get_track(id: int, quality: str = "HI_RES_LOSSLESS", immersiveaudio: bool = False):
     track_url = f"https://api.tidal.com/v1/tracks/{id}/playbackinfo"
     params = {
         "audioquality": quality,
         "playbackmode": "STREAM",
         "assetpresentation": "FULL",
+        "immersiveaudio": immersiveaudio
     }
     return await make_request(track_url, params=params)
+
+
+@app.get("/trackManifests/")
+async def get_track_manifests(
+    id: str,
+    request: Request,
+    formats: List[str] = Query(default=["HEAACV1", "AACLC", "FLAC", "FLAC_HIRES", "EAC3_JOC"]),
+    adaptive: str = Query(default="true"),
+    manifestType: str = Query(default="MPEG_DASH"),
+    uriScheme: str = Query(default="HTTPS"),
+    usage: str = Query(default="PLAYBACK")
+):
+    url = f"https://openapi.tidal.com/v2/trackManifests/{id}"
+    params = [
+        ("adaptive", adaptive),
+        ("manifestType", manifestType),
+        ("uriScheme", uriScheme),
+        ("usage", usage),
+    ]
+    for f in formats:
+        params.append(("formats", f))
+    res = await make_request(url, params=params)
+    try:
+        drm_data = res["data"]["data"]["attributes"]["drmData"]
+        if drm_data:
+            proxy_url = str(request.base_url).rstrip("/") + "/widevine"
+            drm_data["licenseUrl"] = proxy_url
+            drm_data["certificateUrl"] = proxy_url
+    except (KeyError, TypeError):
+        pass
+    return res
+
+# Not really necessary but I'm including it anyway
+@app.api_route("/widevine", methods=["GET", "POST"])
+async def widevine_proxy(request: Request):
+    client = await get_http_client()
+    body = await request.body()
+    url = "https://api.tidal.com/v2/widevine"
+
+    token, cred = await get_tidal_token_for_cred()
+    headers = {
+        "authorization": f"Bearer {token}",
+        "Content-Type": request.headers.get("Content-Type", "application/octet-stream")
+    }
+
+    try:
+        resp = await client.request(request.method, url, headers=headers, content=body)
+
+        if resp.status_code == 401:
+            token, cred = await get_tidal_token_for_cred(force_refresh=True, cred=cred)
+            headers["authorization"] = f"Bearer {token}"
+            resp = await client.request(request.method, url, headers=headers, content=body)
+
+        return fastapi.Response(
+            content=resp.content,
+            status_code=resp.status_code,
+            headers={"Content-Type": resp.headers.get("Content-Type", "application/json")}
+        )
+    except Exception as e:
+        raise fastapi.HTTPException(status_code=502, detail="Error communicating with widevine server")
 
 
 @app.get("/recommendations/")
@@ -646,7 +707,7 @@ async def get_artist(
 
         picture = artist_data.get("picture")
         fallback = artist_data.get("selectedAlbumCoverFallback")
-        
+
         if not picture and fallback:
             artist_data["picture"] = fallback
             picture = fallback
@@ -685,7 +746,7 @@ async def get_artist(
 
     unique_releases = []
     seen_ids = set()
-    
+
     # Process albums (first 2 results)
     for res in results[:2]:
         if isinstance(res, tuple) and len(res) > 0:
@@ -711,7 +772,7 @@ async def get_artist(
                 top_tracks = data.get("items", []) if isinstance(data, dict) else data
             elif isinstance(res, Exception):
                 logger.warning("Error fetching top tracks: %s", res)
-        
+
         return {"version": API_VERSION, "albums": page_data, "tracks": top_tracks}
 
     if not album_ids:

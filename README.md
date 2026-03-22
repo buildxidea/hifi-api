@@ -31,7 +31,7 @@ Tidal appears to region lock by account, not by countryCode. Nevertheless, count
 
 ### Dolby Atmos
 
-Usually, tracks that support Atmos will have `DOLBY_ATMOS` in `mediaMetadata.tags`. To request Dolby Atmos tracks, use `quality=LOW` at the track endpoint. The returned file will usually be E-AC3 or E-AC4 (depends on Client ID/Secret used) in the usual base64-encoded JSON manifest. `audioQuality` should be `DOLBY_ATMOS` (untested).
+Usually, tracks that support Atmos will have `DOLBY_ATMOS` in `mediaMetadata.tags`. To request Dolby Atmos tracks, use the new `trackManifests` endpoint - see its spec for more info on Atmos.
 
 ## API Schema
 
@@ -143,6 +143,7 @@ Returns info about a track given ID.
 
 - `id`: `int` (required) - Tidal track ID.
 - `quality`: `str` (optional, default `HI_RES_LOSSLESS`) - `HI_RES_LOSSLESS`, `LOSSLESS`, `HIGH`, `LOW`.
+- `immersiveaudio`: `bool` (optional, default `False`) - Requests immersive audio (Dolby Atmos/Sony 360). It doesn't properly work - I would use /trackManifests/ below.
 
 #### Response
 
@@ -172,9 +173,7 @@ Returns info about a track given ID.
 Where `manifest` is either base64 encoded JSON (use `"manifestMimeType": "application/vnd.tidal.bts"` to identify).
 
 > [!NOTE]
-> Dolby Atmos tracks can usually be fetched from /track/ by requesting `quality=LOW`.
->
-> This endpoint also doesn't appear to be region-locked, whereas search is.
+> You should probably be using the newer endpoint /trackManifests/ instead which returns some more stuff.
 
 ###### Decoded Manifest (formatted)
 
@@ -238,6 +237,98 @@ Where `manifest` is base64 encoded MPD manifest (use `"manifestMimeType": "appli
 	</Period>
 </MPD>
 ```
+
+### `GET /trackManifests/`
+
+#### Params
+
+- `id`: `str` (required) - Tidal track ID.
+- `formats`: `list[str]` (optional, default `HEAACV1`, `AACLC`, `FLAC`, `FLAC_HIRES`, `EAC3_JOC`) - Requested audio formats. Can be specified multiple times.
+- `adaptive`: `str` (optional, default `true`) - Adaptive streaming (where multiple formats are returned in one response).
+- `manifestType`: `str` (optional, default `MPEG_DASH`, options `HTTPS`, `HLS`) - Manifest type.
+- `uriScheme`: `str` (optional, default `HTTPS`, options `HTTPS`, `DATA`) - URI scheme. DATA returns everything in base64, HTTPS returns a link to the manifest.
+- `usage`: `str` (optional, default `PLAYBACK`, options `PLAYBACK`, `DOWNLOAD`) - Usage type.
+
+#### Response
+
+`200 OK` (default everything)
+
+```json
+{
+  "version": "2.7",
+  "data": {
+    "data": {
+      "id": "85905134",
+      "type": "trackManifests",
+      "attributes": {
+        "trackPresentation": "FULL",
+        "uri": "https://im-fa.manifest.tidal.com/1/manifests/Egg4NTkwNTEzNBgCIhZuVE1BeW93OVRvekZZUzhBcEUzQmVBIhZVQmd4MDNIUjVlVlRhNmdKa0kzUTlnIhZuWmdWQk9CUHRFZTFTblNYbUlmUW5nIhZhRDVyZXBtaUY2OEdGYXJ6V0tZcll3KAEwAg.mpd?token=1774196362~ZTk0MWU2MmI1ZmEyMzI0MDc4NmMxMDdiYTg5MTgwNTA3YjY0OWJjOA==",
+        "hash": "nzLt3KkLfegkCxSubZodCWRrZCO1l4FpXpv6yB0kNrM=",
+        "formats": [
+          "HEAACV1",
+          "AACLC",
+          "FLAC",
+          "FLAC_HIRES"
+        ],
+        "albumAudioNormalizationData": {
+          "replayGain": -10.81,
+          "peakAmplitude": 0.901572
+        },
+        "trackAudioNormalizationData": {
+          "replayGain": -10.1,
+          "peakAmplitude": 0.901468
+        }
+      }
+    },
+    "links": {
+      "self": "/trackManifests/85905134?uriScheme=HTTPS&adaptive=true&formats=AACLC%2CEAC3_JOC%2CFLAC%2CFLAC_HIRES%2CHEAACV1&usage=PLAYBACK&manifestType=MPEG_DASH"
+    }
+  }
+}
+```
+
+> [!NOTE]
+> Be aware - the API returns Atmos by default if available. Most browsers can't play Atmos - so specify every format except from Atmos to avoid it.
+
+##### Response (Atmos)
+
+```json
+{
+  "version": "2.7",
+  "data": {
+    "data": {
+      "id": "434493254",
+      "type": "trackManifests",
+      "attributes": {
+        "trackPresentation": "FULL",
+        "uri": "https://im-fa.manifest.tidal.com/1/manifests/Egk0MzQ0OTMyNTQYAiIWUzVyXzNHdVlYby02RnIwSDM5aUh2USgBMAI.mpd?token=1774196401~ZGQyZjgzMDNkZjc1MTdlNTJmYmQxZjEwZjZjOGFlMWVjN2RjNjFiNA==",
+        "hash": "P9JIfU1+7xwdasgo84AJaGAiygOHKvsfAK3aZ1xOOLk=",
+        "formats": [
+          "EAC3_JOC"
+        ]
+      }
+    },
+    "links": {
+      "self": "/trackManifests/434493254?uriScheme=HTTPS&adaptive=true&formats=AACLC%2CEAC3_JOC%2CFLAC%2CFLAC_HIRES%2CHEAACV1&usage=PLAYBACK&manifestType=MPEG_DASH"
+    }
+  }
+}
+```
+
+
+### `GET` / `POST /widevine`
+
+Proxy endpoint for Widevine DRM license requests. Allows the frontend to seamlessly request Widevine DRM certificates and licenses while transparently appending the Tidal auth token.
+
+#### Params
+
+None. Send the Widevine challenge in the request body.
+
+#### Response
+
+`200 OK`
+
+Returns the DRM license response.
 
 ### `GET /recommendations/`
 
