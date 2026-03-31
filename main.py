@@ -164,7 +164,10 @@ async def update_global_client(force_new_proxy: bool = False):
                     raise HTTPException(status_code=503, detail="Service Unavailable")
 
         # Only create a new client if the proxy is actually different
-        if _http_client and str(_http_client.proxy.url if _http_client.proxy else None) == proxy_url:
+        current_proxy_url: Optional[str] = None
+        if _http_client and _http_client.proxy:
+            current_proxy_url = str(_http_client.proxy.url)
+        if _http_client and current_proxy_url == proxy_url:
             return
 
         new_client = _build_http_client(proxy_url)
