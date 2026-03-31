@@ -99,8 +99,13 @@ USE_PROXIES = os.getenv("USE_PROXIES", "False").lower() in ("true", "1", "yes")
 ROTATE_PROXIES_ON_REFRESH = os.getenv("ROTATE_PROXIES_ON_REFRESH", "False").lower() in ("true", "1", "yes")
 PROXIES_FILE = os.getenv("PROXIES_FILE", "proxies.txt")
 FALLBACK_TO_DIRECT_CONNECTION = os.getenv("FALLBACK_TO_DIRECT_CONNECTION", "False").lower() in ("true", "1", "yes")
-MAX_RETRIES = int(os.getenv("MAX_RETRIES", "2"))
-
+_max_retries_raw = os.getenv("MAX_RETRIES", "2")
+try:
+    MAX_RETRIES = int(_max_retries_raw)
+except ValueError:
+    MAX_RETRIES = 2
+if MAX_RETRIES < 1:
+    MAX_RETRIES = 1
 def load_proxies():
     """Load proxies from file into the global _proxies list."""
     global _proxies
