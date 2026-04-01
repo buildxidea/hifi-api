@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-API_VERSION = "2.7"
+API_VERSION = "2.8"
 
 # Shared HTTP client is created in app lifespan for connection reuse
 _http_client: Optional[httpx.AsyncClient] = None
@@ -42,16 +42,26 @@ _last_known_good_proxy: Optional[str] = None
 
 
 def _build_http_client(proxy_url: Optional[str] = None) -> httpx.AsyncClient:
-    return httpx.AsyncClient(
-        proxies=proxy_url,
-        http2=True,
-        timeout=httpx.Timeout(connect=3.0, read=12.0, write=8.0, pool=12.0),
-        limits=httpx.Limits(
+    # Pack common settings into a dictionary to keep things DRY
+    client_kwargs = {
+        "http2": True,
+        "timeout": httpx.Timeout(connect=3.0, read=12.0, write=8.0, pool=12.0),
+        "limits": httpx.Limits(
             max_keepalive_connections=500,
             max_connections=1000,
             keepalive_expiry=30.0,
         ),
-    )
+    }
+
+    try:
+        # Modern httpx
+        return httpx.AsyncClient(proxy=proxy_url, **client_kwargs)
+    except TypeError:
+        # Legacy httpx
+        # If proxy_url is None, proxies=None is perfectly valid.
+        # If it's a string, older httpx versions require it to be a dictionary mapping.
+        legacy_proxies = {"all://": proxy_url} if proxy_url else None
+        return httpx.AsyncClient(proxies=legacy_proxies, **client_kwargs)
 
 
 @asynccontextmanager
@@ -316,7 +326,7 @@ async def refresh_tidal_token(cred: Optional[dict] = None):
                     },
                     auth=(cred["client_id"], cred["client_secret"]),
                 )
-                
+
                 if res.status_code in [400, 401]:
                     try:
                         error_data = res.json()
@@ -325,7 +335,7 @@ async def refresh_tidal_token(cred: Optional[dict] = None):
                             raise HTTPException(status_code=401, detail=f"Tidal Auth Error: {error_data.get('error_description')}")
                     except ValueError:
                         pass
-                
+
                 res.raise_for_status()
                 data = res.json()
                 new_token = data["access_token"]
