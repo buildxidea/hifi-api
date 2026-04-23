@@ -259,7 +259,7 @@ Where `manifest` is base64 encoded MPD manifest (use `"manifestMimeType": "appli
 - `id`: `str` (required) - Tidal track ID.
 - `formats`: `list[str]` (optional, default `HEAACV1`, `AACLC`, `FLAC`, `FLAC_HIRES`, `EAC3_JOC`) - Requested audio formats. Can be specified multiple times.
 - `adaptive`: `str` (optional, default `true`) - Adaptive streaming (where multiple formats are returned in one response).
-- `manifestType`: `str` (optional, default `MPEG_DASH`, options `HTTPS`, `HLS`) - Manifest type.
+- `manifestType`: `str` (optional, default `MPEG_DASH`, options `MPEG_DASH`, `HLS`) - Manifest type.
 - `uriScheme`: `str` (optional, default `HTTPS`, options `HTTPS`, `DATA`) - URI scheme. DATA returns everything in base64, HTTPS returns a link to the manifest.
 - `usage`: `str` (optional, default `PLAYBACK`, options `PLAYBACK`, `DOWNLOAD`) - Usage type.
 
